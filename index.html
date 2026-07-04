@@ -116,122 +116,6 @@
 
 
 
-    /* Упрощённая контрастная версия интерфейса для слабовидящих. */
-    body.accessible {
-      --accent: #000000;
-      --accent-dark: #000000;
-      --page-bg: #ffffff;
-      --block-bg: #ffffff;
-      --neutral-bg: #ffffff;
-      --text: #000000;
-      --muted: #000000;
-      --border: #000000;
-      --success: #000000;
-      --success-bg: #ffffff;
-      --warning: #000000;
-      --warning-bg: #ffffff;
-      --danger: #000000;
-      --danger-bg: #ffffff;
-      --shadow: none;
-      font-size: 20px;
-      line-height: 1.7;
-      letter-spacing: 0.02em;
-    }
-
-    body.accessible *,
-    body.accessible *::before,
-    body.accessible *::after {
-      animation: none !important;
-      transition: none !important;
-    }
-
-    body.accessible .site-header,
-    body.accessible.dark .site-header {
-      color: #ffffff;
-      background: #000000;
-    }
-
-    body.accessible .header-title p {
-      color: #ffffff;
-    }
-
-    body.accessible button {
-      border: 3px solid #000000;
-      border-radius: 0;
-      color: #000000;
-      background: #ffff00;
-      font-weight: bold;
-      text-decoration: underline;
-    }
-
-    body.accessible .header-actions button {
-      border-color: #ffffff;
-      color: #000000;
-      background: #ffff00;
-    }
-
-    body.accessible button:hover:not(:disabled),
-    body.accessible .header-actions button:hover:not(:disabled),
-    body.accessible .secondary-button:hover:not(:disabled),
-    body.accessible .danger-button:hover:not(:disabled) {
-      color: #ffffff;
-      background: #000000;
-    }
-
-    body.accessible .search-strip,
-    body.accessible .panel,
-    body.accessible .summary-item,
-    body.accessible .department-card,
-    body.accessible #historyList,
-    body.accessible .history-item,
-    body.accessible .message,
-    body.accessible #detailsBox {
-      border: 3px solid #000000;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
-    body.accessible .section-caption,
-    body.accessible.dark .section-caption {
-      color: #000000;
-      background: #ffff00;
-      border-bottom: 3px solid #000000;
-    }
-
-    body.accessible input,
-    body.accessible select {
-      min-height: 50px;
-      border: 3px solid #000000;
-      border-radius: 0;
-      color: #000000;
-      background: #ffffff;
-      font-size: 1em;
-    }
-
-    body.accessible .status-badge,
-    body.accessible .department-status {
-      border: 3px solid #000000;
-      border-radius: 0;
-      color: #000000;
-      background: #ffffff;
-    }
-
-    body.accessible .recommendations-list li {
-      border: 3px solid #000000;
-      border-radius: 0;
-      color: #000000;
-      background: #ffffff;
-    }
-
-    body.accessible .recommendations-list li::before {
-      color: #ffffff;
-      background: #000000;
-    }
-
-    body.accessible #previewFrame {
-      border: 3px solid #000000;
-    }
-
     .document-shell {
       width: min(1160px, 100%);
       margin: 0 auto;
@@ -321,9 +205,9 @@
     }
 
     .check-form {
-      align-items: center;
       display: grid;
       grid-template-columns: minmax(0, 1fr) 190px;
+      align-items: center;
       gap: 10px;
     }
 
@@ -894,7 +778,7 @@
           <p>Проверка раздела “Сведения об образовательной организации”</p>
         </div>
         <div class="header-actions">
-          <button type="button" id="accessibilityButton" aria-pressed="false">👁️ Версия для слабовидящих</button>
+          <button type="button">👁️ Версия для слабовидящих</button>
           <button type="button" id="themeButton">Тёмная тема</button>
           <button type="button" id="headerClearButton" class="danger-button">Очистить историю</button>
         </div>
@@ -1087,7 +971,6 @@
 
     const HISTORY_KEY = "inspectorOOHistory";
     const THEME_KEY = "inspectorOOTheme";
-    const ACCESSIBILITY_KEY = "inspectorOOAccessibility";
     let currentResult = null;
     let currentHistoryFilter = "Все";
 
@@ -1107,7 +990,6 @@
     const historyFilterSelect = document.getElementById("historyFilter");
     const historyList = document.getElementById("historyList");
     const themeButton = document.getElementById("themeButton");
-    const accessibilityButton = document.getElementById("accessibilityButton");
 
     // Приводит текст к удобному виду для поиска.
     function normalizeText(text) {
@@ -2025,16 +1907,6 @@
       localStorage.setItem(THEME_KEY, darkEnabled ? "dark" : "light");
     }
 
-    // Включает крупный шрифт и контрастное оформление интерфейса.
-    function toggleAccessibilityMode() {
-      const enabled = document.body.classList.toggle("accessible");
-      accessibilityButton.setAttribute("aria-pressed", String(enabled));
-      accessibilityButton.textContent = enabled
-        ? "Обычная версия"
-        : "👁️ Версия для слабовидящих";
-      localStorage.setItem(ACCESSIBILITY_KEY, enabled ? "enabled" : "disabled");
-    }
-
     // Показывает сообщение пользователю.
     function showMessage(text, type) {
       messageBox.replaceChildren();
@@ -2151,21 +2023,10 @@
       }
     }
 
-    function restoreAccessibilityMode() {
-      const savedMode = localStorage.getItem(ACCESSIBILITY_KEY);
-
-      if (savedMode === "enabled") {
-        document.body.classList.add("accessible");
-        accessibilityButton.setAttribute("aria-pressed", "true");
-        accessibilityButton.textContent = "Обычная версия";
-      }
-    }
-
     checkForm.addEventListener("submit", runCheck);
     document.getElementById("exportButton").addEventListener("click", exportJson);
     document.getElementById("copyButton").addEventListener("click", copyTextReport);
     themeButton.addEventListener("click", toggleTheme);
-    accessibilityButton.addEventListener("click", toggleAccessibilityMode);
     document.getElementById("headerClearButton").addEventListener("click", clearHistory);
     document.getElementById("historyClearButton").addEventListener("click", clearHistory);
 
@@ -2184,7 +2045,6 @@
     });
 
     restoreTheme();
-    restoreAccessibilityMode();
     renderHistory();
   </script>
 
@@ -2200,7 +2060,7 @@
   1. Проверка сайта выполняется через proxy API AllOrigins и DOMParser.
   2. iframe используется только для визуального предпросмотра сайта.
   3. Поиск разделов выполняется по ссылкам, заголовкам, href, title и тексту страницы. Версия для слабовидящих также ищется по alt, aria-label, классам и иконке глаза 👁️.
-  4. В интерфейсе есть отдельная кнопка «Версия для слабовидящих» с крупным шрифтом и высокой контрастностью.
+  4. В интерфейсе отображается кнопка «Версия для слабовидящих» без дополнительной логики переключения.
   5. Для похожих названий используется простая проверка по ключевым словам.
   6. История проверок сохраняется в localStorage.
   7. Дизайн специально сделан простым, потому что это MVP учебной работы.
