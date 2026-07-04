@@ -13,48 +13,45 @@
     }
 
     :root {
-      --page-bg: #eeeeee;
+      --accent: #167d78;
+      --accent-dark: #0f5e5a;
+      --page-bg: #edf1f2;
       --block-bg: #ffffff;
-      --text: #222222;
-      --muted: #666666;
-      --border: #b8b8b8;
-      --header: #30343b;
-      --header-text: #ffffff;
-      --button: #3d6f9e;
-      --button-hover: #315d85;
-      --success: #2f7d3a;
-      --success-bg: #e4f3e6;
-      --warning: #9a6100;
-      --warning-bg: #fff0c9;
-      --danger: #a52d2d;
-      --danger-bg: #f8dddd;
-      --neutral-bg: #e5e8eb;
-      --shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+      --neutral-bg: #e8eeef;
+      --text: #202a2e;
+      --muted: #5b696f;
+      --border: #b7c2c6;
+      --success: #246f48;
+      --success-bg: #e6f4ec;
+      --warning: #8a5a00;
+      --warning-bg: #fff1cf;
+      --danger: #963737;
+      --danger-bg: #fae5e5;
+      --shadow: 0 2px 7px rgba(29, 48, 55, 0.12);
     }
 
     body.dark {
-      --page-bg: #242424;
-      --block-bg: #343434;
-      --text: #eeeeee;
-      --muted: #bbbbbb;
-      --border: #626262;
-      --header: #171717;
-      --header-text: #ffffff;
-      --button: #477ba9;
-      --button-hover: #5a8dbc;
-      --success: #9ada9f;
-      --success-bg: #29482d;
-      --warning: #ffd37a;
-      --warning-bg: #564317;
-      --danger: #ffaaaa;
-      --danger-bg: #592d2d;
-      --neutral-bg: #484848;
-      --shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+      --accent: #53aaa4;
+      --accent-dark: #79c3bd;
+      --page-bg: #172126;
+      --block-bg: #253238;
+      --neutral-bg: #303f45;
+      --text: #eef3f4;
+      --muted: #b7c4c8;
+      --border: #526168;
+      --success: #9bd7b7;
+      --success-bg: #203b2c;
+      --warning: #f2cb74;
+      --warning-bg: #46391f;
+      --danger: #efa3a3;
+      --danger-bg: #462828;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
     }
 
     body {
       min-width: 320px;
       min-height: 100vh;
+      padding: 0 12px;
       color: var(--text);
       background: var(--page-bg);
       line-height: 1.45;
@@ -67,17 +64,17 @@
     }
 
     button {
-      border: 1px solid #264c70;
-      border-radius: 4px;
       padding: 9px 14px;
+      border: 1px solid var(--accent-dark);
+      border-radius: 4px;
       color: #ffffff;
-      background: var(--button);
+      background: var(--accent);
       cursor: pointer;
-      transition: background-color 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
     button:hover:not(:disabled) {
-      background: var(--button-hover);
+      background: var(--accent-dark);
     }
 
     button:disabled {
@@ -92,92 +89,241 @@
     }
 
     .secondary-button:hover:not(:disabled) {
-      background: #cfd4d8;
-    }
-
-    body.dark .secondary-button:hover:not(:disabled) {
-      background: #585858;
+      border-color: #718d92;
+      color: #17272c;
+      background: #d6e5e7;
     }
 
     .danger-button {
-      border-color: #7f2020;
-      background: #a63a3a;
+      border-color: #7e2929;
+      background: #a33737;
     }
 
     .danger-button:hover:not(:disabled) {
-      background: #8c2f2f;
+      border-color: #641f1f;
+      background: #7e2929;
+    }
+
+    body.dark .secondary-button:hover:not(:disabled) {
+      color: #ffffff;
+      background: #43555c;
+    }
+
+    body.dark .danger-button:hover:not(:disabled) {
+      border-color: #ef9292;
+      background: #b84b4b;
+    }
+
+
+
+    /* Упрощённая контрастная версия интерфейса для слабовидящих. */
+    body.accessible {
+      --accent: #000000;
+      --accent-dark: #000000;
+      --page-bg: #ffffff;
+      --block-bg: #ffffff;
+      --neutral-bg: #ffffff;
+      --text: #000000;
+      --muted: #000000;
+      --border: #000000;
+      --success: #000000;
+      --success-bg: #ffffff;
+      --warning: #000000;
+      --warning-bg: #ffffff;
+      --danger: #000000;
+      --danger-bg: #ffffff;
+      --shadow: none;
+      font-size: 20px;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+    }
+
+    body.accessible *,
+    body.accessible *::before,
+    body.accessible *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    body.accessible .site-header,
+    body.accessible.dark .site-header {
+      color: #ffffff;
+      background: #000000;
+    }
+
+    body.accessible .header-title p {
+      color: #ffffff;
+    }
+
+    body.accessible button {
+      border: 3px solid #000000;
+      border-radius: 0;
+      color: #000000;
+      background: #ffff00;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    body.accessible .header-actions button {
+      border-color: #ffffff;
+      color: #000000;
+      background: #ffff00;
+    }
+
+    body.accessible button:hover:not(:disabled),
+    body.accessible .header-actions button:hover:not(:disabled),
+    body.accessible .secondary-button:hover:not(:disabled),
+    body.accessible .danger-button:hover:not(:disabled) {
+      color: #ffffff;
+      background: #000000;
+    }
+
+    body.accessible .search-strip,
+    body.accessible .panel,
+    body.accessible .summary-item,
+    body.accessible .department-card,
+    body.accessible #historyList,
+    body.accessible .history-item,
+    body.accessible .message,
+    body.accessible #detailsBox {
+      border: 3px solid #000000;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    body.accessible .section-caption,
+    body.accessible.dark .section-caption {
+      color: #000000;
+      background: #ffff00;
+      border-bottom: 3px solid #000000;
+    }
+
+    body.accessible input,
+    body.accessible select {
+      min-height: 50px;
+      border: 3px solid #000000;
+      border-radius: 0;
+      color: #000000;
+      background: #ffffff;
+      font-size: 1em;
+    }
+
+    body.accessible .status-badge,
+    body.accessible .department-status {
+      border: 3px solid #000000;
+      border-radius: 0;
+      color: #000000;
+      background: #ffffff;
+    }
+
+    body.accessible .recommendations-list li {
+      border: 3px solid #000000;
+      border-radius: 0;
+      color: #000000;
+      background: #ffffff;
+    }
+
+    body.accessible .recommendations-list li::before {
+      color: #ffffff;
+      background: #000000;
+    }
+
+    body.accessible #previewFrame {
+      border: 3px solid #000000;
+    }
+
+    .document-shell {
+      width: min(1160px, 100%);
+      margin: 0 auto;
     }
 
     .site-header {
-      color: var(--header-text);
-      background: var(--header);
-      border-bottom: 4px solid #4e81ad;
+      color: #ffffff;
+      background: #26363c;
+    }
+
+    body.dark .site-header {
+      background: #10181c;
     }
 
     .header-inner {
-      width: calc(100% - 32px);
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 18px 0;
+      min-height: 76px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
     }
 
+    .header-title {
+      min-width: 0;
+    }
+
     .header-title h1 {
-      margin-bottom: 3px;
-      font-size: 26px;
+      font-size: 25px;
       line-height: 1.2;
     }
 
     .header-title p {
-      color: #d5d9dd;
+      margin-top: 3px;
+      color: #d2dcdf;
       font-size: 14px;
     }
 
-    .header-actions {
+    .header-actions,
+    .export-buttons,
+    .history-controls {
       display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 8px;
     }
 
     .header-actions button {
-      border-color: #777777;
-      background: #555b64;
+      border-color: #aab8bc;
+      background: transparent;
     }
 
     .header-actions button:hover:not(:disabled) {
-      background: #676e78;
+      color: #1c2c31;
+      background: #f2f6f7;
     }
 
-    .container {
-      width: calc(100% - 32px);
-      max-width: 1180px;
+    .header-actions .danger-button:hover:not(:disabled) {
+      color: #ffffff;
+      background: #9e3b3b;
+    }
+
+    .registry {
       min-width: 0;
-      margin: 20px auto 35px;
+      padding: 20px 0 34px;
       display: grid;
       gap: 16px;
     }
 
+    .search-strip,
     .panel {
       min-width: 0;
-      padding: 18px;
       border: 1px solid var(--border);
       border-radius: 6px;
       background: var(--block-bg);
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
-    .panel h2 {
+    .search-strip {
+      padding: 18px;
+    }
+
+    .search-strip h2 {
       margin-bottom: 12px;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .check-form {
-      align-items: center;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      align-items: end;
       gap: 10px;
     }
 
@@ -191,36 +337,48 @@
       font-weight: bold;
     }
 
-    .input-wrap input {
-      width: 100%;
-      min-height: 42px;
-      padding: 9px 10px;
+    .input-wrap input,
+    .history-controls select {
       color: var(--text);
       background: var(--block-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
     }
 
+    .input-wrap input {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 10px;
+    }
+
+    .history-controls select {
+      padding: 8px;
+    }
+
     .input-wrap input:focus,
-    select:focus {
+    .history-controls select:focus {
       outline: 2px solid #7ca9cf;
       outline-offset: 1px;
     }
 
-    .hint {
-      margin-top: 6px;
+    .hint,
+    .preview-note {
       color: var(--muted);
       font-size: 13px;
     }
 
+    .hint {
+      margin-top: 6px;
+    }
+
     .submit-wrap {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
     }
 
     #checkButton {
+      width: 100%;
       min-height: 42px;
-      min-width: 120px;
     }
 
     .message {
@@ -253,11 +411,6 @@
       border-color: var(--danger);
     }
 
-    .message.loading {
-      color: var(--text);
-      background: var(--neutral-bg);
-    }
-
     .loading-line {
       display: inline-flex;
       align-items: center;
@@ -268,15 +421,13 @@
       width: 17px;
       height: 17px;
       border: 3px solid #aeb5ba;
-      border-top-color: var(--button);
+      border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
 
     #resultsSection {
@@ -291,28 +442,55 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-caption {
+      min-height: 48px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: #dde6e8;
+    }
+
+    body.dark .section-caption {
+      background: var(--neutral-bg);
+    }
+
+    .section-caption h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .section-body {
+      padding: 16px;
     }
 
     .result-top {
+      padding-bottom: 14px;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-title-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
     }
 
     .status-badge {
       display: inline-block;
-      padding: 7px 10px;
+      padding: 6px 9px;
       border: 1px solid currentColor;
       border-radius: 4px;
+      font-size: 14px;
       font-weight: bold;
     }
 
@@ -331,12 +509,6 @@
       background: var(--danger-bg);
     }
 
-    .export-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
     .summary-grid {
       margin-top: 15px;
       display: grid;
@@ -346,779 +518,45 @@
 
     .summary-item {
       min-width: 0;
-      padding: 11px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: var(--page-bg);
-    }
-
-    .summary-item dt {
-      margin-bottom: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .summary-item dd {
-      overflow-wrap: anywhere;
-      font-weight: bold;
-    }
-
-    .table-scroll {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-    }
-
-    table {
-      width: 100%;
-      min-width: 760px;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      padding: 9px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th:last-child,
-    td:last-child {
-      border-right: 0;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    th {
-      background: var(--neutral-bg);
-    }
-
-    tbody tr:hover {
-      background: var(--page-bg);
-    }
-
-    .cell-status {
-      white-space: nowrap;
-      font-weight: bold;
-    }
-
-    .recommendations-list {
-      padding-left: 22px;
-      display: grid;
-      gap: 7px;
-    }
-
-    .details-toggle {
-      margin-top: 14px;
-    }
-
-    #detailsBox {
-      display: none;
-      margin-top: 12px;
-      padding: 12px;
-      border: 1px dashed var(--border);
-      background: var(--page-bg);
-    }
-
-    #detailsBox.visible {
-      display: block;
-    }
-
-    .details-list {
-      padding-left: 20px;
-      display: grid;
-      gap: 5px;
-    }
-
-    .preview-note {
-      margin-bottom: 10px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    #previewFrame {
-      display: block;
-      width: 100%;
-      height: 430px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-    }
-
-    .history-head {
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .history-head h2 {
-      margin-bottom: 0;
-    }
-
-    .history-controls {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .history-controls select {
-      padding: 8px;
-      color: var(--text);
-      background: var(--block-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-    }
-
-    #historyList {
-      display: grid;
-      gap: 8px;
-    }
-
-    .history-item {
-      width: 100%;
-      padding: 11px;
-      color: var(--text);
-      background: var(--page-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      text-align: left;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 5px 14px;
-    }
-
-    .history-item:hover {
-      color: var(--text);
-      background: var(--neutral-bg);
-    }
-
-    .history-url {
-      overflow-wrap: anywhere;
-      font-weight: bold;
-    }
-
-    .history-status {
-      font-weight: bold;
-    }
-
-    .history-meta {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .empty-text {
-      padding: 12px;
-      color: var(--muted);
-      background: var(--page-bg);
-      border: 1px dashed var(--border);
-    }
-
-    @media (max-width: 760px) {
-      .header-inner,
-      .result-top {
-        flex-direction: column;
-      }
-
-      .header-actions,
-      .export-buttons {
-        width: 100%;
-      }
-
-      .header-actions button,
-      .export-buttons button {
-        flex: 1 1 auto;
-      }
-
-      .check-form {
-        grid-template-columns: 1fr;
-      }
-
-      .submit-wrap,
-      #checkButton {
-        width: 100%;
-      }
-
-      .summary-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      #previewFrame {
-        height: 340px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-inner,
-      .container {
-        width: calc(100% - 20px);
-      }
-
-      .panel {
-        padding: 13px;
-      }
-
-      .header-title h1 {
-        font-size: 23px;
-      }
-
-      .summary-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .history-item {
-        grid-template-columns: 1fr;
-      }
-
-      #previewFrame {
-        height: 290px;
-      }
-    }
-
-    :root {
-      --page-bg: #dfe4ea;
-      --block-bg: #ffffff;
-      --text: #1e2938;
-      --muted: #647184;
-      --border: #8e9aaa;
-      --header: #243b5a;
-      --header-text: #ffffff;
-      --button: #294b73;
-      --button-hover: #1e3959;
-      --success: #267344;
-      --success-bg: #e3f1e8;
-      --warning: #8a5a00;
-      --warning-bg: #fff0c7;
-      --danger: #a33737;
-      --danger-bg: #f6dddd;
-      --neutral-bg: #e8edf2;
-      --shadow: 0 4px 14px rgba(31, 45, 62, 0.14);
-    }
-
-    body.dark {
-      --page-bg: #20262e;
-      --block-bg: #2c343e;
-      --text: #eef2f6;
-      --muted: #bac4d0;
-      --border: #687586;
-      --header: #18283e;
-      --header-text: #ffffff;
-      --button: #426b99;
-      --button-hover: #527dac;
-      --success: #9ad6ac;
-      --success-bg: #294636;
-      --warning: #f1cc72;
-      --warning-bg: #514319;
-      --danger: #f0aaaa;
-      --danger-bg: #583030;
-      --neutral-bg: #3c4652;
-      --shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-    }
-
-    body {
-      padding: 24px 12px;
-      background: var(--page-bg);
-    }
-
-    button {
-      border-color: #1c3552;
-      border-radius: 2px;
-      background: var(--button);
-    }
-
-    .secondary-button {
-      border-color: var(--border);
-      color: var(--text);
-      background: var(--neutral-bg);
-    }
-
-    .danger-button {
-      border-color: #7e2929;
-      background: #a33737;
-    }
-
-    .document-shell {
-      width: min(960px, 100%);
-      margin: 0 auto;
-      background: var(--block-bg);
-      border: 1px solid #718092;
-      box-shadow: var(--shadow);
-    }
-
-    .site-header {
-      color: var(--header-text);
-      background: var(--header);
-      border: 0;
-    }
-
-    .header-inner {
-      width: 100%;
-      max-width: none;
-      min-height: 72px;
-      padding: 13px 18px;
-    }
-
-    .header-title {
-      min-width: 0;
-    }
-
-    .header-title h1 {
-      margin: 0;
-      font-size: 23px;
-      letter-spacing: 0;
-    }
-
-    .header-title p {
-      margin-top: 3px;
-      color: #dbe4ee;
-      font-size: 13px;
-    }
-
-    .header-actions button {
-      border-color: #8494a8;
-      background: #324d70;
-    }
-
-    .header-actions .danger-button {
-      border-color: #e39a9a;
-      background: #8f3636;
-    }
-
-    .registry {
-      width: 100%;
-      min-width: 0;
-      padding: 18px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .search-strip {
-      padding: 14px;
-      border: 1px solid var(--border);
-      background: var(--block-bg);
-    }
-
-    .search-strip h2 {
-      margin-bottom: 10px;
-      font-size: 17px;
-    }
-
-    .check-form {
-      grid-template-columns: minmax(0, 1fr) 190px;
-      align-items: stretch;
-    }
-
-    .submit-wrap {
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #checkButton {
-      width: 100%;
-      min-width: 0;
-    }
-
-    .message {
-      border-radius: 2px;
-      box-shadow: none;
-    }
-
-    #resultsSection.visible {
-      gap: 18px;
-    }
-
-    .panel {
-      min-width: 0;
-      padding: 0;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      box-shadow: none;
-      overflow: hidden;
-    }
-
-    .section-caption {
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 12px;
-      color: var(--text);
-      background: var(--neutral-bg);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .section-caption h2 {
-      margin: 0;
-      font-size: 17px;
-    }
-
-    .section-body {
-      padding: 14px;
-    }
-
-    .result-top {
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .result-title-line {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 9px;
-    }
-
-    .status-badge {
-      padding: 6px 9px;
-      border-radius: 2px;
-      font-size: 14px;
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      border: 1px solid var(--border);
-    }
-
-    .summary-item {
-      min-width: 0;
-      padding: 9px 11px;
-      border: 0;
-      border-bottom: 1px solid var(--border);
-      border-radius: 0;
-      background: var(--block-bg);
-      display: grid;
-      grid-template-columns: 210px minmax(0, 1fr);
-      gap: 12px;
-      align-items: start;
-    }
-
-    .summary-item:last-child {
-      border-bottom: 0;
-    }
-
-    .summary-item dt {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .export-buttons {
-      justify-content: flex-end;
-    }
-
-    .table-scroll {
-      border: 0;
-    }
-
-    table {
-      min-width: 720px;
-    }
-
-    th {
-      background: #dce4ed;
-    }
-
-    body.dark th {
-      background: #3b4653;
-    }
-
-    .recommendations-list {
-      padding-left: 24px;
-    }
-
-    .recommendations-list li {
-      padding: 4px 0;
-    }
-
-    #previewFrame {
-      height: 360px;
-    }
-
-    .details-toggle {
-      margin-top: 0;
-    }
-
-    #detailsBox {
-      border-radius: 0;
-    }
-
-    .history-head {
-      flex: 1;
-      margin: 0;
-      align-items: center;
-    }
-
-    .history-head h2 {
-      margin: 0;
-    }
-
-    .history-controls {
-      margin-left: auto;
-    }
-
-    #historyList {
-      display: grid;
-      gap: 0;
-      border: 1px solid var(--border);
-    }
-
-    .history-item {
-      padding: 10px 11px;
-      border: 0;
-      border-bottom: 1px solid var(--border);
-      border-radius: 0;
-      background: var(--block-bg);
-      grid-template-columns: minmax(0, 1fr) auto;
-    }
-
-    .history-item:last-child {
-      border-bottom: 0;
-    }
-
-    .history-item:hover {
-      background: var(--neutral-bg);
-    }
-
-    .empty-text {
-      border: 0;
-      background: var(--block-bg);
-    }
-
-    @media (max-width: 760px) {
-      body {
-        padding: 0;
-      }
-
-      .document-shell {
-        border-right: 0;
-        border-left: 0;
-      }
-
-      .header-inner {
-        padding: 12px;
-      }
-
-      .registry {
-        padding: 12px;
-      }
-
-      .check-form {
-        grid-template-columns: 1fr;
-      }
-
-      .submit-wrap,
-      #checkButton {
-        width: 100%;
-      }
-
-      #checkButton {
-        max-width: 220px;
-        min-width: 0;
-      }
-
-      .summary-item {
-        grid-template-columns: 160px minmax(0, 1fr);
-      }
-
-      .history-head {
-        align-items: flex-start;
-      }
-
-      .history-controls {
-        width: 100%;
-        margin-left: 0;
-      }
-
-      #previewFrame {
-        height: 320px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title h1 {
-        font-size: 20px;
-      }
-
-      .registry {
-        padding: 8px;
-        gap: 12px;
-      }
-
-      .section-body,
-      .search-strip {
-        padding: 11px;
-      }
-
-      .summary-item {
-        grid-template-columns: 1fr;
-        gap: 3px;
-      }
-
-      .export-buttons button {
-        width: 100%;
-      }
-
-      .history-item {
-        grid-template-columns: 1fr;
-      }
-
-      #previewFrame {
-        height: 260px;
-      }
-    }
-
-    :root {
-      --accent: #167d78;
-      --accent-dark: #0f5e5a;
-      --page-bg: #edf1f2;
-      --block-bg: #ffffff;
-      --neutral-bg: #e8eeef;
-      --text: #202a2e;
-      --muted: #5b696f;
-      --border: #b7c2c6;
-    }
-
-    body {
-      padding: 0 12px;
-      background: var(--page-bg);
-      color: var(--text);
-    }
-
-    .document-shell {
-      max-width: 1160px;
-      margin: 0 auto;
-      border: 0;
-      box-shadow: none;
-      background: transparent;
-    }
-
-    .site-header {
-      border: 0;
-      background: #26363c;
-    }
-
-    .header-inner {
-      max-width: none;
-      padding: 18px 20px;
-    }
-
-    .header-title h1 {
-      font-size: 25px;
-    }
-
-    .header-title p {
-      color: #d2dcdf;
-    }
-
-    .header-actions button,
-    .header-actions .danger-button {
-      border: 1px solid #aab8bc;
-      background: transparent;
-    }
-
-    .header-actions .danger-button:hover {
-      background: #8c3434;
-    }
-
-    .registry {
-      padding: 20px 0;
-      gap: 16px;
-    }
-
-    .search-strip,
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--block-bg);
-      overflow: hidden;
-    }
-
-    .search-strip {
-      padding: 18px;
-    }
-
-    .search-strip h2 {
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-
-    #checkButton,
-    #exportButton {
-      border-color: var(--accent-dark);
-      background: var(--accent);
-    }
-
-    #checkButton:hover,
-    #exportButton:hover {
-      background: var(--accent-dark);
-    }
-
-    .section-caption {
-      min-height: 48px;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-      background: #dde6e8;
-    }
-
-    .section-caption h2 {
-      font-size: 18px;
-    }
-
-    .section-body {
-      padding: 16px;
-    }
-
-    .result-top {
-      padding-bottom: 14px;
-      border-bottom: 1px solid #d5dddf;
-    }
-
-    .status-badge {
-      border-radius: 4px;
-    }
-
-    .summary-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      border: 0;
-    }
-
-    .summary-item,
-    .summary-item:last-child {
       min-height: 92px;
       padding: 12px;
       border: 1px solid var(--border);
       border-radius: 5px;
       background: #f8fafb;
-      display: block;
+    }
+
+    body.dark .summary-item {
+      background: #202c31;
     }
 
     .summary-item dt {
       margin-bottom: 8px;
       color: var(--muted);
       font-size: 12px;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .summary-item dd {
-      font-size: 15px;
       overflow-wrap: anywhere;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .requirement-note {
+      margin-top: 12px;
+      padding: 10px 12px;
+      color: var(--text);
+      background: var(--neutral-bg);
+      border-left: 4px solid var(--accent);
+      font-size: 14px;
     }
 
     .sections-card-grid {
+      padding: 16px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-      padding: 16px;
     }
 
     .department-card {
@@ -1131,6 +569,12 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .department-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
     }
 
     .department-number {
@@ -1140,7 +584,6 @@
     }
 
     .department-name {
-      margin: 0;
       font-size: 15px;
       line-height: 1.35;
     }
@@ -1156,25 +599,24 @@
     }
 
     .found .department-status {
-      color: #246f48;
-      background: #e6f4ec;
+      color: var(--success);
+      background: var(--success-bg);
     }
 
     .partial .department-status {
-      color: #8a5a00;
-      background: #fff1cf;
+      color: var(--warning);
+      background: var(--warning-bg);
     }
 
     .missing .department-status {
-      color: #963737;
-      background: #fae5e5;
+      color: var(--danger);
+      background: var(--danger-bg);
     }
 
     .department-comment {
       margin-top: auto;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.4;
     }
 
     .recommendations-list {
@@ -1196,6 +638,11 @@
       counter-increment: recommendation;
     }
 
+    body.dark .recommendations-list li {
+      border-color: #8d6d2a;
+      background: #3d351f;
+    }
+
     .recommendations-list li::before {
       content: counter(recommendation);
       width: 24px;
@@ -1212,20 +659,63 @@
       font-weight: bold;
     }
 
+    .preview-note {
+      margin-bottom: 10px;
+    }
+
+    #previewFrame {
+      display: block;
+      width: 100%;
+      height: 360px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .details-toggle {
+      margin-top: 0;
+    }
+
+    #detailsBox {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px dashed var(--border);
+      background: var(--page-bg);
+    }
+
+    #detailsBox.visible {
+      display: block;
+    }
+
+    .details-list {
+      padding-left: 20px;
+      display: grid;
+      gap: 5px;
+    }
+
+    .history-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
     #historyList {
-      grid-template-columns: 1fr;
-      gap: 0;
+      display: grid;
       border: 1px solid var(--border);
     }
 
-    .history-item,
-    .history-item:last-child {
+    .history-item {
       min-width: 0;
       padding: 0;
+      color: var(--text);
+      background: var(--block-bg);
       border: 0;
       border-bottom: 1px solid var(--border);
       border-radius: 0;
-      background: var(--block-bg);
+      display: grid;
       grid-template-columns: minmax(170px, 1fr) 80px 52px 190px;
       gap: 0;
       align-items: stretch;
@@ -1234,6 +724,16 @@
 
     .history-item:last-child {
       border-bottom: 0;
+    }
+
+    .history-item:hover:not(:disabled) {
+      color: var(--text);
+      background: #dcebed;
+    }
+
+    body.dark .history-item:hover:not(:disabled) {
+      color: #ffffff;
+      background: #3a5058;
     }
 
     .history-item > span {
@@ -1248,153 +748,39 @@
       border-right: 0;
     }
 
-    .history-status {
-      justify-content: center;
-      color: var(--text);
-      font-size: 18px;
+    .history-url {
+      overflow-wrap: anywhere;
+      font-weight: bold;
     }
 
+    .history-status,
     .history-count {
       justify-content: center;
       font-weight: bold;
+    }
+
+    .history-status {
+      font-size: 18px;
+    }
+
+    .history-meta {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .history-date {
       white-space: nowrap;
     }
 
-    body.dark {
-      --accent: #53aaa4;
-      --accent-dark: #79c3bd;
-      --page-bg: #172126;
-      --block-bg: #253238;
-      --neutral-bg: #303f45;
-      --text: #eef3f4;
-      --muted: #b7c4c8;
-      --border: #526168;
-    }
-
-    body.dark .site-header {
-      background: #10181c;
-    }
-
-    body.dark .section-caption {
-      background: #303f45;
-    }
-
-    body.dark .summary-item,
-    body.dark .history-item {
-      background: #202c31;
-    }
-
-    body.dark .recommendations-list li {
-      border-color: #8d6d2a;
-      background: #3d351f;
-    }
-
-    body.dark .found .department-status {
-      color: #9bd7b7;
-      background: #203b2c;
-    }
-
-    body.dark .partial .department-status {
-      color: #f2cb74;
-      background: #46391f;
-    }
-
-    body.dark .missing .department-status {
-      color: #efa3a3;
-      background: #462828;
-    }
-
-    button {
-      transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease;
-    }
-
-    #checkButton:hover:not(:disabled),
-    #exportButton:hover:not(:disabled) {
-      border-color: #083f3c;
-      color: #ffffff;
-      background: #0d5b57;
-    }
-
-    .secondary-button:hover:not(:disabled) {
-      border-color: #718d92;
-      color: #17272c;
-      background: #d6e5e7;
-    }
-
-    .danger-button:hover:not(:disabled),
-    #historyClearButton:hover:not(:disabled) {
-      border-color: #641f1f;
-      color: #ffffff;
-      background: #7e2929;
-    }
-
-    .header-actions button:hover:not(:disabled) {
-      border-color: #ffffff;
-      color: #1c2c31;
-      background: #f2f6f7;
-    }
-
-    .header-actions .danger-button:hover:not(:disabled) {
-      border-color: #e09090;
-      color: #ffffff;
-      background: #9e3b3b;
-    }
-
-    .history-item:hover:not(:disabled) {
-      color: var(--text);
-      background: #dcebed;
-    }
-
-    body.dark #checkButton:hover:not(:disabled),
-    body.dark #exportButton:hover:not(:disabled) {
-      border-color: #a4ddd8;
-      color: #102725;
-      background: #79c3bd;
-    }
-
-    body.dark .secondary-button:hover:not(:disabled) {
-      border-color: #82999f;
-      color: #ffffff;
-      background: #43555c;
-    }
-
-    body.dark .danger-button:hover:not(:disabled),
-    body.dark #historyClearButton:hover:not(:disabled) {
-      border-color: #ef9292;
-      color: #ffffff;
-      background: #b84b4b;
-    }
-
-    body.dark .header-actions button:hover:not(:disabled) {
-      border-color: #ffffff;
-      color: #152429;
-      background: #e7eff1;
-    }
-
-    body.dark .header-actions .danger-button:hover:not(:disabled) {
-      border-color: #ffaaaa;
-      color: #ffffff;
-      background: #b84b4b;
-    }
-
-    body.dark .history-item:hover:not(:disabled) {
-      color: #ffffff;
-      background: #3a5058;
+    .empty-text {
+      padding: 12px;
+      color: var(--muted);
+      background: var(--block-bg);
     }
 
     @media (max-width: 900px) {
-      .document-shell {
-        margin: 0;
-      }
-
       .registry {
-        padding: 14px;
+        padding: 14px 0 28px;
       }
 
       .summary-grid,
@@ -1404,14 +790,31 @@
     }
 
     @media (max-width: 650px) {
-      .check-form {
-        grid-template-columns: 1fr;
+      body {
+        padding: 0;
       }
 
-      #checkButton {
-        max-width: none;
+      .header-inner,
+      .result-top {
+        flex-direction: column;
+        align-items: stretch;
       }
 
+      .header-actions,
+      .export-buttons {
+        width: 100%;
+      }
+
+      .header-actions button,
+      .export-buttons button {
+        flex: 1 1 auto;
+      }
+
+      .registry {
+        padding: 12px;
+      }
+
+      .check-form,
       .summary-grid,
       .sections-card-grid,
       .recommendations-list {
@@ -1422,8 +825,7 @@
         min-height: 0;
       }
 
-      .history-item,
-      .history-item:last-child {
+      .history-item {
         grid-template-columns: minmax(0, 1fr) 58px 44px;
       }
 
@@ -1431,6 +833,54 @@
         grid-column: 1 / -1;
         border-top: 1px solid var(--border);
         border-right: 0;
+      }
+
+      #previewFrame {
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .registry {
+        padding: 8px;
+        gap: 12px;
+      }
+
+      .header-inner,
+      .section-body,
+      .search-strip,
+      .sections-card-grid {
+        padding: 11px;
+      }
+
+      .header-title h1 {
+        font-size: 21px;
+      }
+
+      .export-buttons button {
+        width: 100%;
+      }
+
+      .history-item {
+        grid-template-columns: 1fr;
+      }
+
+      .history-item > span {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .history-item > span:last-child {
+        border-bottom: 0;
+      }
+
+      .history-date {
+        grid-column: auto;
+        border-top: 0;
+      }
+
+      #previewFrame {
+        height: 260px;
       }
     }
   </style>
@@ -1444,6 +894,7 @@
           <p>Проверка раздела “Сведения об образовательной организации”</p>
         </div>
         <div class="header-actions">
+          <button type="button" id="accessibilityButton" aria-pressed="false">👁️ Версия для слабовидящих</button>
           <button type="button" id="themeButton">Тёмная тема</button>
           <button type="button" id="headerClearButton" class="danger-button">Очистить историю</button>
         </div>
@@ -1489,6 +940,7 @@
               </div>
             </div>
             <dl id="summaryGrid" class="summary-grid"></dl>
+            <p class="requirement-note"><strong>Версия для слабовидящих — обязательное требование.</strong> Обычно это ссылка с текстом «Версия для слабовидящих» или кнопка/иконка 👁️.</p>
           </div>
         </section>
 
@@ -1633,8 +1085,9 @@
       ]
     };
 
-    const HISTORY_KEY = "inspectorOOHistoryVariant4";
-    const THEME_KEY = "inspectorOOThemeVariant4";
+    const HISTORY_KEY = "inspectorOOHistory";
+    const THEME_KEY = "inspectorOOTheme";
+    const ACCESSIBILITY_KEY = "inspectorOOAccessibility";
     let currentResult = null;
     let currentHistoryFilter = "Все";
 
@@ -1654,6 +1107,7 @@
     const historyFilterSelect = document.getElementById("historyFilter");
     const historyList = document.getElementById("historyList");
     const themeButton = document.getElementById("themeButton");
+    const accessibilityButton = document.getElementById("accessibilityButton");
 
     // Приводит текст к удобному виду для поиска.
     function normalizeText(text) {
@@ -1819,7 +1273,7 @@
       };
     }
 
-    // Ищет основной раздел по точным и похожим вариантам названия.
+    // Ищет основной раздел по точным и похожим названиям.
     function checkMainSection(documentNode, htmlText) {
       const data = collectSearchData(documentNode, htmlText);
       const importantText = [
@@ -1830,7 +1284,7 @@
         data.pageText
       ].join(" ");
 
-      const exactVariants = [
+      const exactNames = [
         "сведения об образовательной организации",
         "сведения об оо",
         "sveden",
@@ -1838,7 +1292,7 @@
         "education info"
       ];
 
-      const partialVariants = [
+      const partialNames = [
         "сведения",
         "информация об образовательной организации",
         "информация об организации",
@@ -1846,8 +1300,8 @@
         "info"
       ];
 
-      const exactMatch = exactVariants.find(function (variant) {
-        return importantText.includes(normalizeText(variant));
+      const exactMatch = exactNames.find(function (name) {
+        return importantText.includes(normalizeText(name));
       });
 
       if (exactMatch) {
@@ -1858,8 +1312,8 @@
         };
       }
 
-      const partialMatch = partialVariants.find(function (variant) {
-        return importantText.includes(normalizeText(variant));
+      const partialMatch = partialNames.find(function (name) {
+        return importantText.includes(normalizeText(name));
       });
 
       if (partialMatch) {
@@ -1931,30 +1385,76 @@
         data.hrefText
       ].join(" ");
 
-      const variants = [
+      const accessibleLabels = [
         "версия для слабовидящих",
         "для слабовидящих",
         "специальная версия",
-        "визуально",
-        "blind",
+        "режим для слабовидящих",
         "visually impaired",
-        "accessibility"
+        "low vision",
+        "accessibility",
+        "👁",
+        "👁️"
       ];
 
-      const matchedVariant = variants.find(function (variant) {
-        return combinedText.includes(normalizeText(variant));
+      const matchedText = accessibleLabels.find(function (label) {
+        return combinedText.includes(normalizeText(label));
       });
 
-      if (matchedVariant) {
+      if (matchedText) {
         return {
           found: true,
-          comment: "Найдена ссылка или подпись версии для слабовидящих."
+          comment: "Найдена ссылка, подпись или обозначение версии для слабовидящих: " + matchedText + "."
+        };
+      }
+
+      // Некоторые сайты используют только иконку глаза без видимого текста.
+      const possibleControls = Array.from(
+        documentNode.querySelectorAll("a, button, [role='button'], i, svg, use, img, [class], [id]")
+      );
+
+      const iconPatterns = [
+        "fa-eye",
+        "fa-low-vision",
+        "icon-eye",
+        "bi-eye",
+        "mdi-eye",
+        "glyphicon-eye",
+        "visually-impaired",
+        "low-vision",
+        "poor-vision",
+        "special-version",
+        "accessibility",
+        "bvi"
+      ];
+
+      const iconElement = possibleControls.find(function (node) {
+        const attributes = [
+          node.id || "",
+          node.getAttribute("class") || "",
+          node.getAttribute("href") || "",
+          node.getAttribute("title") || "",
+          node.getAttribute("alt") || "",
+          node.getAttribute("aria-label") || "",
+          node.getAttribute("data-title") || "",
+          node.getAttribute("xlink:href") || ""
+        ].join(" ").toLowerCase();
+
+        return iconPatterns.some(function (pattern) {
+          return attributes.includes(pattern);
+        });
+      });
+
+      if (iconElement) {
+        return {
+          found: true,
+          comment: "Найдена кнопка или иконка версии для слабовидящих (например, значок глаза 👁️)."
         };
       }
 
       return {
         found: false,
-        comment: "Текстовая ссылка на версию для слабовидящих не найдена."
+        comment: "Не найдены ссылка «Версия для слабовидящих», соответствующая подпись или иконка глаза 👁️."
       };
     }
 
@@ -2113,18 +1613,6 @@
       wrapper.appendChild(term);
       wrapper.appendChild(description);
       return wrapper;
-    }
-
-    function getStatusMark(status) {
-      if (status === "Найден") {
-        return "✅ Найден";
-      }
-
-      if (status === "Частично") {
-        return "⚠️ Частично";
-      }
-
-      return "❌ Не найден";
     }
 
     function getOverallStatusText(status) {
@@ -2355,7 +1843,6 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "history-item";
-        button.dataset.id = String(item.id);
 
         const url = document.createElement("span");
         url.className = "history-url";
@@ -2538,6 +2025,16 @@
       localStorage.setItem(THEME_KEY, darkEnabled ? "dark" : "light");
     }
 
+    // Включает крупный шрифт и контрастное оформление интерфейса.
+    function toggleAccessibilityMode() {
+      const enabled = document.body.classList.toggle("accessible");
+      accessibilityButton.setAttribute("aria-pressed", String(enabled));
+      accessibilityButton.textContent = enabled
+        ? "Обычная версия"
+        : "👁️ Версия для слабовидящих";
+      localStorage.setItem(ACCESSIBILITY_KEY, enabled ? "enabled" : "disabled");
+    }
+
     // Показывает сообщение пользователю.
     function showMessage(text, type) {
       messageBox.replaceChildren();
@@ -2609,7 +2106,6 @@
       }
 
       urlInput.value = normalizedUrl;
-      previewFrame.src = normalizedUrl;
       setLoading(true);
       showMessage("Проверка сайта...", "loading");
 
@@ -2655,10 +2151,21 @@
       }
     }
 
+    function restoreAccessibilityMode() {
+      const savedMode = localStorage.getItem(ACCESSIBILITY_KEY);
+
+      if (savedMode === "enabled") {
+        document.body.classList.add("accessible");
+        accessibilityButton.setAttribute("aria-pressed", "true");
+        accessibilityButton.textContent = "Обычная версия";
+      }
+    }
+
     checkForm.addEventListener("submit", runCheck);
     document.getElementById("exportButton").addEventListener("click", exportJson);
     document.getElementById("copyButton").addEventListener("click", copyTextReport);
     themeButton.addEventListener("click", toggleTheme);
+    accessibilityButton.addEventListener("click", toggleAccessibilityMode);
     document.getElementById("headerClearButton").addEventListener("click", clearHistory);
     document.getElementById("historyClearButton").addEventListener("click", clearHistory);
 
@@ -2677,6 +2184,7 @@
     });
 
     restoreTheme();
+    restoreAccessibilityMode();
     renderHistory();
   </script>
 
@@ -2691,11 +2199,12 @@
   ОСОБЕННОСТИ РЕАЛИЗАЦИИ:
   1. Проверка сайта выполняется через proxy API AllOrigins и DOMParser.
   2. iframe используется только для визуального предпросмотра сайта.
-  3. Поиск раздела и подразделов выполняется по ссылкам, заголовкам, href, title и тексту страницы.
-  4. Для похожих названий используется простая проверка по ключевым словам.
-  5. История проверок сохраняется в localStorage.
-  6. Дизайн специально сделан простым, потому что это MVP учебной работы.
-  7. Экспорт отчёта реализован в JSON, также можно скопировать текстовый отчёт в буфер обмена.
+  3. Поиск разделов выполняется по ссылкам, заголовкам, href, title и тексту страницы. Версия для слабовидящих также ищется по alt, aria-label, классам и иконке глаза 👁️.
+  4. В интерфейсе есть отдельная кнопка «Версия для слабовидящих» с крупным шрифтом и высокой контрастностью.
+  5. Для похожих названий используется простая проверка по ключевым словам.
+  6. История проверок сохраняется в localStorage.
+  7. Дизайн специально сделан простым, потому что это MVP учебной работы.
+  8. Экспорт отчёта реализован в JSON, также можно скопировать текстовый отчёт в буфер обмена.
 
   ИСПОЛЬЗОВАНИЕ НЕЙРОСЕТИ:
   - Базовая структура HTML/CSS/JS была сгенерирована с помощью нейросети и доработана.
