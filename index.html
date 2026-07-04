@@ -1,0 +1,2705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Инспектор сайта ОО</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+      --page-bg: #eeeeee;
+      --block-bg: #ffffff;
+      --text: #222222;
+      --muted: #666666;
+      --border: #b8b8b8;
+      --header: #30343b;
+      --header-text: #ffffff;
+      --button: #3d6f9e;
+      --button-hover: #315d85;
+      --success: #2f7d3a;
+      --success-bg: #e4f3e6;
+      --warning: #9a6100;
+      --warning-bg: #fff0c9;
+      --danger: #a52d2d;
+      --danger-bg: #f8dddd;
+      --neutral-bg: #e5e8eb;
+      --shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    body.dark {
+      --page-bg: #242424;
+      --block-bg: #343434;
+      --text: #eeeeee;
+      --muted: #bbbbbb;
+      --border: #626262;
+      --header: #171717;
+      --header-text: #ffffff;
+      --button: #477ba9;
+      --button-hover: #5a8dbc;
+      --success: #9ada9f;
+      --success-bg: #29482d;
+      --warning: #ffd37a;
+      --warning-bg: #564317;
+      --danger: #ffaaaa;
+      --danger-bg: #592d2d;
+      --neutral-bg: #484848;
+      --shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--page-bg);
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid #264c70;
+      border-radius: 4px;
+      padding: 9px 14px;
+      color: #ffffff;
+      background: var(--button);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--button-hover);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .secondary-button {
+      border-color: var(--border);
+      color: var(--text);
+      background: var(--neutral-bg);
+    }
+
+    .secondary-button:hover:not(:disabled) {
+      background: #cfd4d8;
+    }
+
+    body.dark .secondary-button:hover:not(:disabled) {
+      background: #585858;
+    }
+
+    .danger-button {
+      border-color: #7f2020;
+      background: #a63a3a;
+    }
+
+    .danger-button:hover:not(:disabled) {
+      background: #8c2f2f;
+    }
+
+    .site-header {
+      color: var(--header-text);
+      background: var(--header);
+      border-bottom: 4px solid #4e81ad;
+    }
+
+    .header-inner {
+      width: calc(100% - 32px);
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .header-title h1 {
+      margin-bottom: 3px;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .header-title p {
+      color: #d5d9dd;
+      font-size: 14px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .header-actions button {
+      border-color: #777777;
+      background: #555b64;
+    }
+
+    .header-actions button:hover:not(:disabled) {
+      background: #676e78;
+    }
+
+    .container {
+      width: calc(100% - 32px);
+      max-width: 1180px;
+      min-width: 0;
+      margin: 20px auto 35px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--block-bg);
+      box-shadow: var(--shadow);
+    }
+
+    .panel h2 {
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .check-form {
+      align-items: center;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .input-wrap {
+      min-width: 0;
+    }
+
+    .input-wrap label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 10px;
+      color: var(--text);
+      background: var(--block-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .input-wrap input:focus,
+    select:focus {
+      outline: 2px solid #7ca9cf;
+      outline-offset: 1px;
+    }
+
+    .hint {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .submit-wrap {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    #checkButton {
+      min-height: 42px;
+      min-width: 120px;
+    }
+
+    .message {
+      display: none;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--neutral-bg);
+    }
+
+    .message.visible {
+      display: block;
+    }
+
+    .message.success {
+      color: var(--success);
+      background: var(--success-bg);
+      border-color: var(--success);
+    }
+
+    .message.warning {
+      color: var(--warning);
+      background: var(--warning-bg);
+      border-color: var(--warning);
+    }
+
+    .message.error {
+      color: var(--danger);
+      background: var(--danger-bg);
+      border-color: var(--danger);
+    }
+
+    .message.loading {
+      color: var(--text);
+      background: var(--neutral-bg);
+    }
+
+    .loading-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+      border: 3px solid #aeb5ba;
+      border-top-color: var(--button);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #resultsSection {
+      display: none;
+      min-width: 0;
+    }
+
+    #resultsSection.visible {
+      display: grid;
+      gap: 16px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 7px 10px;
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .status-success {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .status-warning {
+      color: var(--warning);
+      background: var(--warning-bg);
+    }
+
+    .status-danger {
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .export-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .summary-grid {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-item {
+      min-width: 0;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--page-bg);
+    }
+
+    .summary-item dt {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .summary-item dd {
+      overflow-wrap: anywhere;
+      font-weight: bold;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 9px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    th {
+      background: var(--neutral-bg);
+    }
+
+    tbody tr:hover {
+      background: var(--page-bg);
+    }
+
+    .cell-status {
+      white-space: nowrap;
+      font-weight: bold;
+    }
+
+    .recommendations-list {
+      padding-left: 22px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .details-toggle {
+      margin-top: 14px;
+    }
+
+    #detailsBox {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px dashed var(--border);
+      background: var(--page-bg);
+    }
+
+    #detailsBox.visible {
+      display: block;
+    }
+
+    .details-list {
+      padding-left: 20px;
+      display: grid;
+      gap: 5px;
+    }
+
+    .preview-note {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    #previewFrame {
+      display: block;
+      width: 100%;
+      height: 430px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .history-head {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .history-head h2 {
+      margin-bottom: 0;
+    }
+
+    .history-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .history-controls select {
+      padding: 8px;
+      color: var(--text);
+      background: var(--block-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    #historyList {
+      display: grid;
+      gap: 8px;
+    }
+
+    .history-item {
+      width: 100%;
+      padding: 11px;
+      color: var(--text);
+      background: var(--page-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: left;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 5px 14px;
+    }
+
+    .history-item:hover {
+      color: var(--text);
+      background: var(--neutral-bg);
+    }
+
+    .history-url {
+      overflow-wrap: anywhere;
+      font-weight: bold;
+    }
+
+    .history-status {
+      font-weight: bold;
+    }
+
+    .history-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty-text {
+      padding: 12px;
+      color: var(--muted);
+      background: var(--page-bg);
+      border: 1px dashed var(--border);
+    }
+
+    @media (max-width: 760px) {
+      .header-inner,
+      .result-top {
+        flex-direction: column;
+      }
+
+      .header-actions,
+      .export-buttons {
+        width: 100%;
+      }
+
+      .header-actions button,
+      .export-buttons button {
+        flex: 1 1 auto;
+      }
+
+      .check-form {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-wrap,
+      #checkButton {
+        width: 100%;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #previewFrame {
+        height: 340px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-inner,
+      .container {
+        width: calc(100% - 20px);
+      }
+
+      .panel {
+        padding: 13px;
+      }
+
+      .header-title h1 {
+        font-size: 23px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .history-item {
+        grid-template-columns: 1fr;
+      }
+
+      #previewFrame {
+        height: 290px;
+      }
+    }
+
+    :root {
+      --page-bg: #dfe4ea;
+      --block-bg: #ffffff;
+      --text: #1e2938;
+      --muted: #647184;
+      --border: #8e9aaa;
+      --header: #243b5a;
+      --header-text: #ffffff;
+      --button: #294b73;
+      --button-hover: #1e3959;
+      --success: #267344;
+      --success-bg: #e3f1e8;
+      --warning: #8a5a00;
+      --warning-bg: #fff0c7;
+      --danger: #a33737;
+      --danger-bg: #f6dddd;
+      --neutral-bg: #e8edf2;
+      --shadow: 0 4px 14px rgba(31, 45, 62, 0.14);
+    }
+
+    body.dark {
+      --page-bg: #20262e;
+      --block-bg: #2c343e;
+      --text: #eef2f6;
+      --muted: #bac4d0;
+      --border: #687586;
+      --header: #18283e;
+      --header-text: #ffffff;
+      --button: #426b99;
+      --button-hover: #527dac;
+      --success: #9ad6ac;
+      --success-bg: #294636;
+      --warning: #f1cc72;
+      --warning-bg: #514319;
+      --danger: #f0aaaa;
+      --danger-bg: #583030;
+      --neutral-bg: #3c4652;
+      --shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+    }
+
+    body {
+      padding: 24px 12px;
+      background: var(--page-bg);
+    }
+
+    button {
+      border-color: #1c3552;
+      border-radius: 2px;
+      background: var(--button);
+    }
+
+    .secondary-button {
+      border-color: var(--border);
+      color: var(--text);
+      background: var(--neutral-bg);
+    }
+
+    .danger-button {
+      border-color: #7e2929;
+      background: #a33737;
+    }
+
+    .document-shell {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      background: var(--block-bg);
+      border: 1px solid #718092;
+      box-shadow: var(--shadow);
+    }
+
+    .site-header {
+      color: var(--header-text);
+      background: var(--header);
+      border: 0;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: none;
+      min-height: 72px;
+      padding: 13px 18px;
+    }
+
+    .header-title {
+      min-width: 0;
+    }
+
+    .header-title h1 {
+      margin: 0;
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+
+    .header-title p {
+      margin-top: 3px;
+      color: #dbe4ee;
+      font-size: 13px;
+    }
+
+    .header-actions button {
+      border-color: #8494a8;
+      background: #324d70;
+    }
+
+    .header-actions .danger-button {
+      border-color: #e39a9a;
+      background: #8f3636;
+    }
+
+    .registry {
+      width: 100%;
+      min-width: 0;
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .search-strip {
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--block-bg);
+    }
+
+    .search-strip h2 {
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .check-form {
+      grid-template-columns: minmax(0, 1fr) 190px;
+      align-items: stretch;
+    }
+
+    .submit-wrap {
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #checkButton {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .message {
+      border-radius: 2px;
+      box-shadow: none;
+    }
+
+    #resultsSection.visible {
+      gap: 18px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .section-caption {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      color: var(--text);
+      background: var(--neutral-bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-caption h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .section-body {
+      padding: 14px;
+    }
+
+    .result-top {
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .result-title-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .status-badge {
+      padding: 6px 9px;
+      border-radius: 2px;
+      font-size: 14px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .summary-item {
+      min-width: 0;
+      padding: 9px 11px;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      background: var(--block-bg);
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .summary-item:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-item dt {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .export-buttons {
+      justify-content: flex-end;
+    }
+
+    .table-scroll {
+      border: 0;
+    }
+
+    table {
+      min-width: 720px;
+    }
+
+    th {
+      background: #dce4ed;
+    }
+
+    body.dark th {
+      background: #3b4653;
+    }
+
+    .recommendations-list {
+      padding-left: 24px;
+    }
+
+    .recommendations-list li {
+      padding: 4px 0;
+    }
+
+    #previewFrame {
+      height: 360px;
+    }
+
+    .details-toggle {
+      margin-top: 0;
+    }
+
+    #detailsBox {
+      border-radius: 0;
+    }
+
+    .history-head {
+      flex: 1;
+      margin: 0;
+      align-items: center;
+    }
+
+    .history-head h2 {
+      margin: 0;
+    }
+
+    .history-controls {
+      margin-left: auto;
+    }
+
+    #historyList {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .history-item {
+      padding: 10px 11px;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      background: var(--block-bg);
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .history-item:last-child {
+      border-bottom: 0;
+    }
+
+    .history-item:hover {
+      background: var(--neutral-bg);
+    }
+
+    .empty-text {
+      border: 0;
+      background: var(--block-bg);
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 0;
+      }
+
+      .document-shell {
+        border-right: 0;
+        border-left: 0;
+      }
+
+      .header-inner {
+        padding: 12px;
+      }
+
+      .registry {
+        padding: 12px;
+      }
+
+      .check-form {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-wrap,
+      #checkButton {
+        width: 100%;
+      }
+
+      #checkButton {
+        max-width: 220px;
+        min-width: 0;
+      }
+
+      .summary-item {
+        grid-template-columns: 160px minmax(0, 1fr);
+      }
+
+      .history-head {
+        align-items: flex-start;
+      }
+
+      .history-controls {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      #previewFrame {
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title h1 {
+        font-size: 20px;
+      }
+
+      .registry {
+        padding: 8px;
+        gap: 12px;
+      }
+
+      .section-body,
+      .search-strip {
+        padding: 11px;
+      }
+
+      .summary-item {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .export-buttons button {
+        width: 100%;
+      }
+
+      .history-item {
+        grid-template-columns: 1fr;
+      }
+
+      #previewFrame {
+        height: 260px;
+      }
+    }
+
+    :root {
+      --accent: #167d78;
+      --accent-dark: #0f5e5a;
+      --page-bg: #edf1f2;
+      --block-bg: #ffffff;
+      --neutral-bg: #e8eeef;
+      --text: #202a2e;
+      --muted: #5b696f;
+      --border: #b7c2c6;
+    }
+
+    body {
+      padding: 0 12px;
+      background: var(--page-bg);
+      color: var(--text);
+    }
+
+    .document-shell {
+      max-width: 1160px;
+      margin: 0 auto;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .site-header {
+      border: 0;
+      background: #26363c;
+    }
+
+    .header-inner {
+      max-width: none;
+      padding: 18px 20px;
+    }
+
+    .header-title h1 {
+      font-size: 25px;
+    }
+
+    .header-title p {
+      color: #d2dcdf;
+    }
+
+    .header-actions button,
+    .header-actions .danger-button {
+      border: 1px solid #aab8bc;
+      background: transparent;
+    }
+
+    .header-actions .danger-button:hover {
+      background: #8c3434;
+    }
+
+    .registry {
+      padding: 20px 0;
+      gap: 16px;
+    }
+
+    .search-strip,
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--block-bg);
+      overflow: hidden;
+    }
+
+    .search-strip {
+      padding: 18px;
+    }
+
+    .search-strip h2 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    #checkButton,
+    #exportButton {
+      border-color: var(--accent-dark);
+      background: var(--accent);
+    }
+
+    #checkButton:hover,
+    #exportButton:hover {
+      background: var(--accent-dark);
+    }
+
+    .section-caption {
+      min-height: 48px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #dde6e8;
+    }
+
+    .section-caption h2 {
+      font-size: 18px;
+    }
+
+    .section-body {
+      padding: 16px;
+    }
+
+    .result-top {
+      padding-bottom: 14px;
+      border-bottom: 1px solid #d5dddf;
+    }
+
+    .status-badge {
+      border-radius: 4px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      border: 0;
+    }
+
+    .summary-item,
+    .summary-item:last-child {
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #f8fafb;
+      display: block;
+    }
+
+    .summary-item dt {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .summary-item dd {
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .sections-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .department-card {
+      min-width: 0;
+      min-height: 175px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--block-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .department-number {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .department-name {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .department-status {
+      width: max-content;
+      max-width: 100%;
+      padding: 4px 7px;
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .found .department-status {
+      color: #246f48;
+      background: #e6f4ec;
+    }
+
+    .partial .department-status {
+      color: #8a5a00;
+      background: #fff1cf;
+    }
+
+    .missing .department-status {
+      color: #963737;
+      background: #fae5e5;
+    }
+
+    .department-comment {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .recommendations-list {
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      list-style: none;
+      counter-reset: recommendation;
+    }
+
+    .recommendations-list li {
+      min-height: 72px;
+      padding: 12px 12px 12px 44px;
+      border: 1px solid #d4b46c;
+      border-radius: 5px;
+      background: #fff8e8;
+      position: relative;
+      counter-increment: recommendation;
+    }
+
+    .recommendations-list li::before {
+      content: counter(recommendation);
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 11px;
+      left: 11px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #ffffff;
+      background: #a46f11;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    #historyList {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .history-item,
+    .history-item:last-child {
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      background: var(--block-bg);
+      grid-template-columns: minmax(170px, 1fr) 80px 52px 190px;
+      gap: 0;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    .history-item:last-child {
+      border-bottom: 0;
+    }
+
+    .history-item > span {
+      min-width: 0;
+      padding: 10px 12px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .history-item > span:last-child {
+      border-right: 0;
+    }
+
+    .history-status {
+      justify-content: center;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .history-count {
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .history-date {
+      white-space: nowrap;
+    }
+
+    body.dark {
+      --accent: #53aaa4;
+      --accent-dark: #79c3bd;
+      --page-bg: #172126;
+      --block-bg: #253238;
+      --neutral-bg: #303f45;
+      --text: #eef3f4;
+      --muted: #b7c4c8;
+      --border: #526168;
+    }
+
+    body.dark .site-header {
+      background: #10181c;
+    }
+
+    body.dark .section-caption {
+      background: #303f45;
+    }
+
+    body.dark .summary-item,
+    body.dark .history-item {
+      background: #202c31;
+    }
+
+    body.dark .recommendations-list li {
+      border-color: #8d6d2a;
+      background: #3d351f;
+    }
+
+    body.dark .found .department-status {
+      color: #9bd7b7;
+      background: #203b2c;
+    }
+
+    body.dark .partial .department-status {
+      color: #f2cb74;
+      background: #46391f;
+    }
+
+    body.dark .missing .department-status {
+      color: #efa3a3;
+      background: #462828;
+    }
+
+    button {
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    #checkButton:hover:not(:disabled),
+    #exportButton:hover:not(:disabled) {
+      border-color: #083f3c;
+      color: #ffffff;
+      background: #0d5b57;
+    }
+
+    .secondary-button:hover:not(:disabled) {
+      border-color: #718d92;
+      color: #17272c;
+      background: #d6e5e7;
+    }
+
+    .danger-button:hover:not(:disabled),
+    #historyClearButton:hover:not(:disabled) {
+      border-color: #641f1f;
+      color: #ffffff;
+      background: #7e2929;
+    }
+
+    .header-actions button:hover:not(:disabled) {
+      border-color: #ffffff;
+      color: #1c2c31;
+      background: #f2f6f7;
+    }
+
+    .header-actions .danger-button:hover:not(:disabled) {
+      border-color: #e09090;
+      color: #ffffff;
+      background: #9e3b3b;
+    }
+
+    .history-item:hover:not(:disabled) {
+      color: var(--text);
+      background: #dcebed;
+    }
+
+    body.dark #checkButton:hover:not(:disabled),
+    body.dark #exportButton:hover:not(:disabled) {
+      border-color: #a4ddd8;
+      color: #102725;
+      background: #79c3bd;
+    }
+
+    body.dark .secondary-button:hover:not(:disabled) {
+      border-color: #82999f;
+      color: #ffffff;
+      background: #43555c;
+    }
+
+    body.dark .danger-button:hover:not(:disabled),
+    body.dark #historyClearButton:hover:not(:disabled) {
+      border-color: #ef9292;
+      color: #ffffff;
+      background: #b84b4b;
+    }
+
+    body.dark .header-actions button:hover:not(:disabled) {
+      border-color: #ffffff;
+      color: #152429;
+      background: #e7eff1;
+    }
+
+    body.dark .header-actions .danger-button:hover:not(:disabled) {
+      border-color: #ffaaaa;
+      color: #ffffff;
+      background: #b84b4b;
+    }
+
+    body.dark .history-item:hover:not(:disabled) {
+      color: #ffffff;
+      background: #3a5058;
+    }
+
+    @media (max-width: 900px) {
+      .document-shell {
+        margin: 0;
+      }
+
+      .registry {
+        padding: 14px;
+      }
+
+      .summary-grid,
+      .sections-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .check-form {
+        grid-template-columns: 1fr;
+      }
+
+      #checkButton {
+        max-width: none;
+      }
+
+      .summary-grid,
+      .sections-card-grid,
+      .recommendations-list {
+        grid-template-columns: 1fr;
+      }
+
+      .department-card {
+        min-height: 0;
+      }
+
+      .history-item,
+      .history-item:last-child {
+        grid-template-columns: minmax(0, 1fr) 58px 44px;
+      }
+
+      .history-date {
+        grid-column: 1 / -1;
+        border-top: 1px solid var(--border);
+        border-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="document-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-title">
+          <h1>🏫 Инспектор сайта ОО</h1>
+          <p>Проверка раздела “Сведения об образовательной организации”</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" id="themeButton">Тёмная тема</button>
+          <button type="button" id="headerClearButton" class="danger-button">Очистить историю</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="registry">
+      <section class="search-strip">
+        <h2>Проверка сайта</h2>
+        <form id="checkForm" class="check-form" novalidate>
+          <div class="input-wrap">
+            <label for="urlInput">Адрес сайта</label>
+            <input
+              type="text"
+              id="urlInput"
+              placeholder="https://school.ru"
+              autocomplete="url"
+            >
+            <p class="hint">Введите адрес сайта образовательной организации</p>
+          </div>
+          <div class="submit-wrap">
+            <button type="submit" id="checkButton">Проверить</button>
+          </div>
+        </form>
+      </section>
+
+      <div id="messageBox" class="message" role="status" aria-live="polite"></div>
+
+      <section id="resultsSection" aria-live="polite">
+        <section class="panel">
+          <div class="section-caption">
+            <h2>📊 Результаты проверки</h2>
+          </div>
+          <div class="section-body">
+            <div class="result-top">
+              <div class="result-title-line">
+                <strong>Общий статус:</strong>
+                <div id="overallStatus" class="status-badge"></div>
+              </div>
+              <div class="export-buttons">
+                <button type="button" id="exportButton">Экспорт JSON</button>
+                <button type="button" id="copyButton" class="secondary-button">Копировать отчёт</button>
+              </div>
+            </div>
+            <dl id="summaryGrid" class="summary-grid"></dl>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-caption">
+            <h2>📋 Проверка подразделов</h2>
+          </div>
+          <div id="sectionsCards" class="sections-card-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-caption">
+            <h2>💡 Рекомендации</h2>
+          </div>
+          <div class="section-body">
+            <ul id="recommendationsList" class="recommendations-list"></ul>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-caption">
+            <h2>Предпросмотр сайта</h2>
+          </div>
+          <div class="section-body">
+            <p id="previewMessage" class="preview-note">
+              Предпросмотр может быть недоступен из-за ограничений сайта.
+            </p>
+            <iframe
+              id="previewFrame"
+              title="Предпросмотр проверяемого сайта"
+              referrerpolicy="no-referrer"
+            ></iframe>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-caption">
+            <h2>Детали проверки</h2>
+          </div>
+          <div class="section-body">
+            <button type="button" id="detailsButton" class="secondary-button details-toggle">Показать детали</button>
+            <div id="detailsBox"></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <div class="section-caption">
+          <div class="history-head">
+            <h2>📜 История проверок</h2>
+            <div class="history-controls">
+              <label for="historyFilter">Фильтр:</label>
+              <select id="historyFilter">
+                <option value="Все">Все</option>
+                <option value="Соответствует">Соответствует</option>
+                <option value="Частично соответствует">Частично соответствует</option>
+                <option value="Не соответствует">Не соответствует</option>
+              </select>
+              <button type="button" id="historyClearButton" class="danger-button">Очистить</button>
+            </div>
+          </div>
+        </div>
+        <div class="section-body">
+          <div id="historyList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    "use strict";
+
+    const requiredSections = [
+      "Основные сведения",
+      "Структура и органы управления образовательной организацией",
+      "Документы",
+      "Образование",
+      "Руководство. Педагогический (научно-педагогический) состав",
+      "Материально-техническое обеспечение и оснащенность образовательного процесса",
+      "Платные образовательные услуги",
+      "Финансово-хозяйственная деятельность",
+      "Вакантные места для приема (перевода) обучающихся",
+      "Доступная среда",
+      "Международное сотрудничество"
+    ];
+
+    const optionalSections = [
+      "Организация питания в образовательной организации",
+      "Образовательные стандарты и требования",
+      "Стипендии и меры поддержки обучающихся"
+    ];
+
+    const sectionKeywords = {
+      "Основные сведения": ["основные сведения", "основные", "sveden/common", "/common"],
+      "Структура и органы управления образовательной организацией": [
+        "структура и органы управления",
+        "структура",
+        "органы управления",
+        "sveden/struct",
+        "/struct"
+      ],
+      "Документы": ["документы", "documents", "document", "sveden/document", "/doc"],
+      "Образование": ["образование", "education", "sveden/education", "/edu"],
+      "Руководство. Педагогический (научно-педагогический) состав": [
+        "руководство педагогический состав",
+        "педагогический состав",
+        "руководство",
+        "employees",
+        "sveden/employees"
+      ],
+      "Материально-техническое обеспечение и оснащенность образовательного процесса": [
+        "материально техническое обеспечение",
+        "оснащенность образовательного процесса",
+        "материально",
+        "objects",
+        "sveden/objects"
+      ],
+      "Платные образовательные услуги": [
+        "платные образовательные услуги",
+        "платные услуги",
+        "paid",
+        "sveden/paid_edu"
+      ],
+      "Финансово-хозяйственная деятельность": [
+        "финансово хозяйственная деятельность",
+        "финансовая деятельность",
+        "budget",
+        "sveden/budget"
+      ],
+      "Вакантные места для приема (перевода) обучающихся": [
+        "вакантные места для приема",
+        "вакантные места",
+        "vacant",
+        "sveden/vacant"
+      ],
+      "Доступная среда": ["доступная среда", "доступная", "accessible", "special", "sveden/ovz"],
+      "Международное сотрудничество": [
+        "международное сотрудничество",
+        "международ",
+        "international",
+        "sveden/inter"
+      ]
+    };
+
+    const HISTORY_KEY = "inspectorOOHistoryVariant4";
+    const THEME_KEY = "inspectorOOThemeVariant4";
+    let currentResult = null;
+    let currentHistoryFilter = "Все";
+
+    const checkForm = document.getElementById("checkForm");
+    const urlInput = document.getElementById("urlInput");
+    const checkButton = document.getElementById("checkButton");
+    const messageBox = document.getElementById("messageBox");
+    const resultsSection = document.getElementById("resultsSection");
+    const overallStatus = document.getElementById("overallStatus");
+    const summaryGrid = document.getElementById("summaryGrid");
+    const sectionsCards = document.getElementById("sectionsCards");
+    const recommendationsList = document.getElementById("recommendationsList");
+    const detailsButton = document.getElementById("detailsButton");
+    const detailsBox = document.getElementById("detailsBox");
+    const previewFrame = document.getElementById("previewFrame");
+    const previewMessage = document.getElementById("previewMessage");
+    const historyFilterSelect = document.getElementById("historyFilter");
+    const historyList = document.getElementById("historyList");
+    const themeButton = document.getElementById("themeButton");
+
+    // Приводит текст к удобному виду для поиска.
+    function normalizeText(text) {
+      return String(text || "")
+        .toLowerCase()
+        .replace(/ё/g, "е")
+        .replace(/[«»"'`()[\]{}.,!?;:–—]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    // Проверяет URL и добавляет https, если протокол не указан.
+    function normalizeUrl(input) {
+      const trimmed = String(input || "").trim().replace(/\s+/g, "");
+
+      if (!trimmed) {
+        throw new Error("Введите адрес сайта.");
+      }
+
+      const withProtocol = /^[a-z][a-z\d+.-]*:\/\//i.test(trimmed)
+        ? trimmed
+        : "https://" + trimmed;
+
+      let parsedUrl;
+
+      try {
+        parsedUrl = new URL(withProtocol);
+      } catch (error) {
+        throw new Error("Адрес сайта указан неправильно.");
+      }
+
+      if (!["http:", "https:"].includes(parsedUrl.protocol) || !parsedUrl.hostname) {
+        throw new Error("Разрешены только корректные адреса http или https.");
+      }
+
+      if (!parsedUrl.hostname.includes(".") && parsedUrl.hostname !== "localhost") {
+        throw new Error("Укажите полный адрес сайта, например school.ru.");
+      }
+
+      return parsedUrl.href;
+    }
+
+    // Выполняет один запрос с ограничением по времени.
+    async function fetchTextWithTimeout(requestUrl, acceptType, timeoutMs) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(function () {
+        controller.abort();
+      }, timeoutMs);
+
+      try {
+        const response = await fetch(requestUrl, {
+          method: "GET",
+          signal: controller.signal,
+          headers: {
+            Accept: acceptType
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Сервис вернул ошибку " + response.status + ".");
+        }
+
+        const text = await response.text();
+
+        if (!text || text.trim().length < 20) {
+          throw new Error("Получен пустой ответ.");
+        }
+
+        return text;
+      } catch (error) {
+        if (error.name === "AbortError") {
+          throw new Error("сервис не ответил за отведённое время");
+        }
+
+        throw error;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
+    // Сначала получает полный HTML, затем пробует резервную текстовую загрузку.
+    async function loadWebsiteHtml(url) {
+      const sources = [
+        {
+          name: "AllOrigins",
+          requestUrl: "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
+          accept: "text/html,application/xhtml+xml",
+          timeout: 12000,
+          complete: true
+        },
+        {
+          name: "Jina Reader",
+          requestUrl: "https://r.jina.ai/" + url,
+          accept: "text/plain",
+          timeout: 15000,
+          complete: false
+        }
+      ];
+      const errors = [];
+
+      for (const source of sources) {
+        try {
+          const html = await fetchTextWithTimeout(
+            source.requestUrl,
+            source.accept,
+            source.timeout
+          );
+
+          return {
+            html: html,
+            source: source.name,
+            complete: source.complete
+          };
+        } catch (error) {
+          errors.push(source.name + ": " + (error.message || "ошибка загрузки"));
+        }
+      }
+
+      throw new Error(errors.join("; "));
+    }
+
+    // Собирает текст ссылок, заголовков и полезных атрибутов.
+    function collectSearchData(documentNode, htmlText) {
+      const links = Array.from(documentNode.querySelectorAll("a"));
+      const headings = Array.from(documentNode.querySelectorAll("h1, h2, h3"));
+      const attributeNodes = Array.from(
+        documentNode.querySelectorAll("[title], [alt], [aria-label]")
+      );
+
+      const linkText = links.map(function (link) {
+        return link.textContent || "";
+      }).join(" ");
+
+      const hrefText = links.map(function (link) {
+        return link.getAttribute("href") || "";
+      }).join(" ");
+
+      const titleText = links.map(function (link) {
+        return link.getAttribute("title") || "";
+      }).join(" ");
+
+      const headingText = headings.map(function (heading) {
+        return heading.textContent || "";
+      }).join(" ");
+
+      const accessibilityAttributes = attributeNodes.map(function (node) {
+        return [
+          node.getAttribute("title") || "",
+          node.getAttribute("alt") || "",
+          node.getAttribute("aria-label") || ""
+        ].join(" ");
+      }).join(" ");
+
+      return {
+        pageText: normalizeText(documentNode.body ? documentNode.body.textContent : htmlText),
+        linkText: normalizeText(linkText),
+        hrefText: normalizeText(hrefText),
+        titleText: normalizeText(titleText),
+        headingText: normalizeText(headingText),
+        accessibilityAttributes: normalizeText(accessibilityAttributes),
+        linksCount: links.length,
+        headingsCount: headings.length
+      };
+    }
+
+    // Ищет основной раздел по точным и похожим вариантам названия.
+    function checkMainSection(documentNode, htmlText) {
+      const data = collectSearchData(documentNode, htmlText);
+      const importantText = [
+        data.linkText,
+        data.hrefText,
+        data.titleText,
+        data.headingText,
+        data.pageText
+      ].join(" ");
+
+      const exactVariants = [
+        "сведения об образовательной организации",
+        "сведения об оо",
+        "sveden",
+        "education-info",
+        "education info"
+      ];
+
+      const partialVariants = [
+        "сведения",
+        "информация об образовательной организации",
+        "информация об организации",
+        "/info",
+        "info"
+      ];
+
+      const exactMatch = exactVariants.find(function (variant) {
+        return importantText.includes(normalizeText(variant));
+      });
+
+      if (exactMatch) {
+        return {
+          found: true,
+          status: "Найден",
+          comment: "Раздел найден по ссылке, заголовку или адресу страницы."
+        };
+      }
+
+      const partialMatch = partialVariants.find(function (variant) {
+        return importantText.includes(normalizeText(variant));
+      });
+
+      if (partialMatch) {
+        return {
+          found: true,
+          status: "Частично",
+          comment: "Найдено похожее название, но раздел нужно проверить вручную."
+        };
+      }
+
+      return {
+        found: false,
+        status: "Не найден",
+        comment: "Ссылка или заголовок специального раздела не найдены."
+      };
+    }
+
+    // Проверяет 11 обязательных подразделов.
+    function checkSections(documentNode, htmlText) {
+      const data = collectSearchData(documentNode, htmlText);
+      const combinedText = [
+        data.linkText,
+        data.headingText,
+        data.pageText,
+        data.hrefText,
+        data.titleText
+      ].join(" ");
+
+      return requiredSections.map(function (sectionName) {
+        const exactName = normalizeText(sectionName);
+
+        if (combinedText.includes(exactName)) {
+          return {
+            name: sectionName,
+            status: "Найден",
+            comment: "Найдено точное название подраздела."
+          };
+        }
+
+        const keywords = sectionKeywords[sectionName] || [];
+        const matchedKeyword = keywords.find(function (keyword) {
+          return combinedText.includes(normalizeText(keyword));
+        });
+
+        if (matchedKeyword) {
+          return {
+            name: sectionName,
+            status: "Частично",
+            comment: "Найдено похожее слово или адрес: " + matchedKeyword + "."
+          };
+        }
+
+        return {
+          name: sectionName,
+          status: "Не найден",
+          comment: "Название и похожие ключевые слова не найдены."
+        };
+      });
+    }
+
+    // Ищет текст и атрибуты, связанные с версией для слабовидящих.
+    function checkAccessibleVersion(documentNode, htmlText) {
+      const data = collectSearchData(documentNode, htmlText);
+      const combinedText = [
+        data.pageText,
+        data.linkText,
+        data.titleText,
+        data.accessibilityAttributes,
+        data.hrefText
+      ].join(" ");
+
+      const variants = [
+        "версия для слабовидящих",
+        "для слабовидящих",
+        "специальная версия",
+        "визуально",
+        "blind",
+        "visually impaired",
+        "accessibility"
+      ];
+
+      const matchedVariant = variants.find(function (variant) {
+        return combinedText.includes(normalizeText(variant));
+      });
+
+      if (matchedVariant) {
+        return {
+          found: true,
+          comment: "Найдена ссылка или подпись версии для слабовидящих."
+        };
+      }
+
+      return {
+        found: false,
+        comment: "Текстовая ссылка на версию для слабовидящих не найдена."
+      };
+    }
+
+    // Выполняет анализ полного HTML или резервного текста страницы.
+    function analyzeHtml(html, url, loadInfo) {
+      const parser = new DOMParser();
+      const documentNode = parser.parseFromString(html, "text/html");
+      const sourceInfo = loadInfo || {
+        source: "AllOrigins",
+        complete: true
+      };
+
+      documentNode.querySelectorAll("script, style, noscript, template").forEach(function (node) {
+        node.remove();
+      });
+
+      const cleanedText = documentNode.body ? documentNode.body.textContent : html;
+      const mainSection = checkMainSection(documentNode, cleanedText);
+      const sections = checkSections(documentNode, cleanedText);
+      const accessibleVersion = checkAccessibleVersion(documentNode, cleanedText);
+      const searchData = collectSearchData(documentNode, cleanedText);
+
+      return {
+        id: Date.now(),
+        url: url,
+        date: new Date().toLocaleString("ru-RU"),
+        analysisComplete: sourceInfo.complete,
+        loadSource: sourceInfo.source,
+        loadError: "",
+        mainSection: mainSection,
+        sections: sections,
+        accessibleVersion: accessibleVersion,
+        technical: {
+          source: sourceInfo.source,
+          htmlLength: html.length,
+          linksCount: searchData.linksCount,
+          headingsCount: searchData.headingsCount,
+          optionalSections: checkOptionalSections(documentNode, cleanedText)
+        }
+      };
+    }
+
+    // Дополнительные подразделы показываются только в деталях и не влияют на итог.
+    function checkOptionalSections(documentNode, htmlText) {
+      const data = collectSearchData(documentNode, htmlText);
+      const combinedText = [
+        data.pageText,
+        data.linkText,
+        data.headingText,
+        data.hrefText,
+        data.titleText
+      ].join(" ");
+
+      return optionalSections.map(function (sectionName) {
+        return {
+          name: sectionName,
+          found: combinedText.includes(normalizeText(sectionName))
+        };
+      });
+    }
+
+    // Считает общий статус и количество найденных подразделов.
+    function calculateStatus(result) {
+      const foundCount = result.sections.filter(function (section) {
+        return section.status === "Найден";
+      }).length;
+
+      const partialCount = result.sections.filter(function (section) {
+        return section.status === "Частично";
+      }).length;
+
+      const missingCount = result.sections.filter(function (section) {
+        return section.status === "Не найден";
+      }).length;
+
+      let status = "Не соответствует";
+
+      if (
+        result.analysisComplete &&
+        result.mainSection.status === "Найден" &&
+        foundCount === requiredSections.length &&
+        result.accessibleVersion.found
+      ) {
+        status = "Соответствует";
+      } else if (result.mainSection.found && foundCount >= 6) {
+        status = "Частично соответствует";
+      }
+
+      result.status = status;
+      result.foundCount = foundCount;
+      result.partialCount = partialCount;
+      result.missingCount = missingCount;
+      result.totalCount = requiredSections.length;
+
+      return status;
+    }
+
+    // Создаёт рекомендации по каждому найденному недостатку.
+    function generateRecommendations(result) {
+      const recommendations = [];
+
+      if (!result.mainSection.found) {
+        recommendations.push(
+          "Добавьте раздел «Сведения об образовательной организации» и ссылку на него в меню сайта."
+        );
+      } else if (result.mainSection.status === "Частично") {
+        recommendations.push(
+          "Проверьте точное название раздела «Сведения об образовательной организации»."
+        );
+      }
+
+      result.sections.forEach(function (section) {
+        if (section.status === "Не найден") {
+          recommendations.push("Добавьте подраздел «" + section.name + "».");
+        }
+
+        if (section.status === "Частично") {
+          recommendations.push(
+            "Проверьте название подраздела «" +
+            section.name +
+            "», оно может отличаться от требований."
+          );
+        }
+      });
+
+      if (!result.accessibleVersion.found) {
+        recommendations.push(
+          "Добавьте версию для слабовидящих или ссылку на неё в шапке сайта."
+        );
+      }
+
+      if (!result.analysisComplete) {
+        recommendations.push(
+          "Проверьте доступность сайта и возможность анализа публичных страниц."
+        );
+      }
+
+      if (recommendations.length === 0) {
+        recommendations.push("Основные требования выполнены.");
+      }
+
+      result.recommendations = recommendations;
+      return recommendations;
+    }
+
+    function createSummaryItem(label, value) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "summary-item";
+
+      const term = document.createElement("dt");
+      term.textContent = label;
+
+      const description = document.createElement("dd");
+      description.textContent = value;
+
+      wrapper.appendChild(term);
+      wrapper.appendChild(description);
+      return wrapper;
+    }
+
+    function getStatusMark(status) {
+      if (status === "Найден") {
+        return "✅ Найден";
+      }
+
+      if (status === "Частично") {
+        return "⚠️ Частично";
+      }
+
+      return "❌ Не найден";
+    }
+
+    function getOverallStatusText(status) {
+      if (status === "Соответствует") {
+        return "✅ Соответствует";
+      }
+
+      if (status === "Частично соответствует") {
+        return "⚠️ Частично соответствует";
+      }
+
+      return "❌ Не соответствует";
+    }
+
+    function getOverallStatusClass(status) {
+      if (status === "Соответствует") {
+        return "status-success";
+      }
+
+      if (status === "Частично соответствует") {
+        return "status-warning";
+      }
+
+      return "status-danger";
+    }
+
+    // Выводит текущий отчёт без вставки HTML сайта.
+    function renderReport(result) {
+      currentResult = result;
+      resultsSection.classList.add("visible");
+
+      overallStatus.className = "status-badge " + getOverallStatusClass(result.status);
+      overallStatus.textContent = getOverallStatusText(result.status);
+
+      summaryGrid.replaceChildren(
+        createSummaryItem("URL сайта", result.url),
+        createSummaryItem("Дата проверки", result.date),
+        createSummaryItem(
+          "Специальный раздел",
+          result.mainSection.status === "Найден"
+            ? "Найден"
+            : result.mainSection.status === "Частично"
+              ? "Найден частично"
+              : "Не найден"
+        ),
+        createSummaryItem(
+          "Подразделы",
+          result.foundCount + " из " + result.totalCount + " найдено"
+        ),
+        createSummaryItem(
+          "Версия для слабовидящих",
+          result.accessibleVersion.found ? "Есть" : "Не найдена"
+        ),
+        createSummaryItem(
+          "Полнота анализа",
+          result.analysisComplete
+            ? "Полный HTML получен"
+            : result.loadSource === "Jina Reader"
+              ? "Получен резервный текст"
+              : "Проверка выполнена частично"
+        )
+      );
+
+      sectionsCards.replaceChildren();
+
+      result.sections.forEach(function (section, index) {
+        const card = document.createElement("article");
+        const number = document.createElement("span");
+        const name = document.createElement("h3");
+        const status = document.createElement("span");
+        const comment = document.createElement("p");
+
+        card.className = "department-card " +
+          (section.status === "Найден"
+            ? "found"
+            : section.status === "Частично"
+              ? "partial"
+              : "missing");
+        number.className = "department-number";
+        name.className = "department-name";
+        status.className = "department-status";
+        comment.className = "department-comment";
+
+        number.textContent = "Подраздел " + String(index + 1);
+        name.textContent = section.name;
+        status.textContent = section.status;
+        comment.textContent = section.comment;
+
+        card.appendChild(number);
+        card.appendChild(name);
+        card.appendChild(status);
+        card.appendChild(comment);
+        sectionsCards.appendChild(card);
+      });
+
+      recommendationsList.replaceChildren();
+
+      result.recommendations.forEach(function (recommendation) {
+        const item = document.createElement("li");
+        item.textContent = recommendation;
+        recommendationsList.appendChild(item);
+      });
+
+      renderDetails(result);
+      previewFrame.src = result.url;
+      previewMessage.textContent =
+        "Предпросмотр может быть недоступен из-за ограничений сайта.";
+      detailsBox.classList.remove("visible");
+      detailsButton.textContent = "Показать детали";
+
+      resultsSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function renderDetails(result) {
+      detailsBox.replaceChildren();
+      const list = document.createElement("ul");
+      list.className = "details-list";
+
+      const detailValues = [
+        "Источник данных: " + (result.loadSource || "не определён"),
+        "Основной раздел: " + result.mainSection.comment,
+        "Версия для слабовидящих: " + result.accessibleVersion.comment,
+        "Точно найдено: " + result.foundCount,
+        "Найдено частично: " + result.partialCount,
+        "Не найдено: " + result.missingCount,
+        "Ссылок на странице: " +
+          (result.analysisComplete ? result.technical.linksCount : "нет данных"),
+        "Заголовков h1-h3: " +
+          (result.analysisComplete ? result.technical.headingsCount : "нет данных"),
+        "Размер полученного HTML: " +
+          (result.analysisComplete ? result.technical.htmlLength + " символов" : "нет данных")
+      ];
+
+      if (result.loadError) {
+        detailValues.push("Ошибка загрузки: " + result.loadError);
+      }
+
+      detailValues.forEach(function (value) {
+        const item = document.createElement("li");
+        item.textContent = value;
+        list.appendChild(item);
+      });
+
+      const optionalTitle = document.createElement("p");
+      optionalTitle.style.marginTop = "10px";
+      optionalTitle.style.fontWeight = "bold";
+      optionalTitle.textContent = "Дополнительные подразделы:";
+
+      const optionalList = document.createElement("ul");
+      optionalList.className = "details-list";
+
+      result.technical.optionalSections.forEach(function (section) {
+        const item = document.createElement("li");
+        item.textContent = (section.found ? "Найден: " : "Не найден: ") + section.name;
+        optionalList.appendChild(item);
+      });
+
+      detailsBox.appendChild(list);
+      detailsBox.appendChild(optionalTitle);
+      detailsBox.appendChild(optionalList);
+    }
+
+    // Сохраняет максимум 10 последних проверок.
+    function saveToHistory(result) {
+      const history = getHistory();
+      const entry = {
+        id: result.id,
+        url: result.url,
+        date: result.date,
+        status: result.status,
+        foundCount: result.foundCount,
+        totalCount: result.totalCount,
+        accessibleVersion: result.accessibleVersion.found,
+        result: result
+      };
+
+      const withoutSameId = history.filter(function (item) {
+        return item.id !== entry.id;
+      });
+
+      withoutSameId.unshift(entry);
+
+      try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(withoutSameId.slice(0, 10)));
+      } catch (error) {
+        showMessage("Не удалось сохранить историю в браузере.", "warning");
+      }
+
+      renderHistory();
+    }
+
+    // Возвращает историю из localStorage.
+    function getHistory() {
+      try {
+        const saved = localStorage.getItem(HISTORY_KEY);
+        const parsed = saved ? JSON.parse(saved) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    // Выводит историю с учётом выбранного фильтра.
+    function renderHistory() {
+      const history = getHistory();
+      const filtered = currentHistoryFilter === "Все"
+        ? history
+        : history.filter(function (item) {
+            return item.status === currentHistoryFilter;
+          });
+
+      historyList.replaceChildren();
+
+      if (filtered.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-text";
+        empty.textContent = history.length === 0
+          ? "История пока пуста"
+          : "По выбранному статусу записей нет";
+        historyList.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(function (item) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "history-item";
+        button.dataset.id = String(item.id);
+
+        const url = document.createElement("span");
+        url.className = "history-url";
+        try {
+          url.textContent = new URL(item.url).hostname.replace(/^www\./, "");
+        } catch (error) {
+          url.textContent = item.url;
+        }
+
+        const status = document.createElement("span");
+        status.className = "history-status";
+        status.textContent = item.status === "Соответствует"
+          ? "✅"
+          : item.status === "Частично соответствует"
+            ? "⚠️"
+            : "❌";
+        status.title = item.status;
+
+        const date = document.createElement("span");
+        date.className = "history-meta history-date";
+        date.textContent = item.date;
+
+        const count = document.createElement("span");
+        count.className = "history-meta history-count";
+        count.textContent = item.foundCount + "/" + item.totalCount;
+
+        button.appendChild(url);
+        button.appendChild(count);
+        button.appendChild(status);
+        button.appendChild(date);
+
+        button.addEventListener("click", function () {
+          loadFromHistory(item.id);
+        });
+
+        historyList.appendChild(button);
+      });
+    }
+
+    // Восстанавливает сохранённый отчёт.
+    function loadFromHistory(id) {
+      const entry = getHistory().find(function (item) {
+        return item.id === Number(id);
+      });
+
+      if (!entry || !entry.result) {
+        showMessage("Не удалось открыть запись истории.", "error");
+        return;
+      }
+
+      urlInput.value = entry.url;
+      renderReport(entry.result);
+      showMessage("Отчёт загружен из истории.", "success");
+    }
+
+    // Полностью удаляет историю после подтверждения.
+    function clearHistory() {
+      if (getHistory().length === 0) {
+        showMessage("История уже пуста.", "warning");
+        return;
+      }
+
+      const confirmed = window.confirm("Очистить всю историю проверок?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      localStorage.removeItem(HISTORY_KEY);
+      renderHistory();
+      showMessage("История очищена.", "success");
+    }
+
+    // Меняет отображаемые записи истории.
+    function filterHistory(status) {
+      currentHistoryFilter = status;
+      renderHistory();
+    }
+
+    // Скачивает текущий отчёт в JSON-файле.
+    function exportJson() {
+      if (!currentResult) {
+        showMessage("Сначала выполните проверку сайта.", "error");
+        return;
+      }
+
+      const blob = new Blob(
+        [JSON.stringify(currentResult, null, 2)],
+        { type: "application/json;charset=utf-8" }
+      );
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "report.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(downloadUrl);
+      showMessage("JSON-отчёт подготовлен.", "success");
+    }
+
+    function buildTextReport(result) {
+      const foundSections = result.sections
+        .filter(function (section) {
+          return section.status === "Найден";
+        })
+        .map(function (section) {
+          return "- " + section.name;
+        });
+
+      const missingSections = result.sections
+        .filter(function (section) {
+          return section.status !== "Найден";
+        })
+        .map(function (section) {
+          return "- " + section.name + " (" + section.status + ")";
+        });
+
+      const recommendationLines = result.recommendations.map(function (item) {
+        return "- " + item;
+      });
+
+      return [
+        "ИНСПЕКТОР САЙТА ОО",
+        "",
+        "URL: " + result.url,
+        "Дата: " + result.date,
+        "Статус: " + result.status,
+        "Найдено подразделов: " + result.foundCount + "/" + result.totalCount,
+        "Версия для слабовидящих: " +
+          (result.accessibleVersion.found ? "есть" : "не найдена"),
+        "",
+        "Найденные подразделы:",
+        foundSections.length ? foundSections.join("\n") : "- Нет",
+        "",
+        "Отсутствующие или частично найденные подразделы:",
+        missingSections.length ? missingSections.join("\n") : "- Нет",
+        "",
+        "Рекомендации:",
+        recommendationLines.join("\n")
+      ].join("\n");
+    }
+
+    // Копирует простой текстовый отчёт в буфер обмена.
+    async function copyTextReport() {
+      if (!currentResult) {
+        showMessage("Сначала выполните проверку сайта.", "error");
+        return;
+      }
+
+      const text = buildTextReport(currentResult);
+
+      try {
+        await navigator.clipboard.writeText(text);
+        showMessage("Отчёт скопирован", "success");
+      } catch (error) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+          document.execCommand("copy");
+          showMessage("Отчёт скопирован", "success");
+        } catch (copyError) {
+          showMessage("Не удалось скопировать отчёт.", "error");
+        } finally {
+          textArea.remove();
+        }
+      }
+    }
+
+    // Переключает светлую и тёмную тему.
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const darkEnabled = document.body.classList.contains("dark");
+      themeButton.textContent = darkEnabled ? "Светлая тема" : "Тёмная тема";
+      localStorage.setItem(THEME_KEY, darkEnabled ? "dark" : "light");
+    }
+
+    // Показывает сообщение пользователю.
+    function showMessage(text, type) {
+      messageBox.replaceChildren();
+      messageBox.className = "message visible " + (type || "");
+
+      if (type === "loading") {
+        const line = document.createElement("span");
+        line.className = "loading-line";
+        const spinner = document.createElement("span");
+        spinner.className = "spinner";
+        spinner.setAttribute("aria-hidden", "true");
+        const label = document.createElement("span");
+        label.textContent = text;
+        line.appendChild(spinner);
+        line.appendChild(label);
+        messageBox.appendChild(line);
+      } else {
+        messageBox.textContent = text;
+      }
+    }
+
+    // Блокирует кнопку на время проверки.
+    function setLoading(isLoading) {
+      checkButton.disabled = isLoading;
+      urlInput.disabled = isLoading;
+      checkButton.textContent = isLoading ? "Проверка..." : "Проверить";
+    }
+
+    function createPartialResult(url, errorMessage) {
+      const parser = new DOMParser();
+      const emptyDocument = parser.parseFromString("<!doctype html><html><body></body></html>", "text/html");
+      const result = {
+        id: Date.now(),
+        url: url,
+        date: new Date().toLocaleString("ru-RU"),
+        analysisComplete: false,
+        loadSource: "Нет данных",
+        loadError: errorMessage,
+        mainSection: checkMainSection(emptyDocument, ""),
+        sections: checkSections(emptyDocument, ""),
+        accessibleVersion: checkAccessibleVersion(emptyDocument, ""),
+        technical: {
+          source: "Нет данных",
+          htmlLength: 0,
+          linksCount: 0,
+          headingsCount: 0,
+          optionalSections: optionalSections.map(function (name) {
+            return { name: name, found: false };
+          })
+        }
+      };
+
+      calculateStatus(result);
+      generateRecommendations(result);
+      return result;
+    }
+
+    async function runCheck(event) {
+      event.preventDefault();
+
+      let normalizedUrl;
+
+      try {
+        normalizedUrl = normalizeUrl(urlInput.value);
+      } catch (error) {
+        showMessage(error.message, "error");
+        urlInput.focus();
+        return;
+      }
+
+      urlInput.value = normalizedUrl;
+      previewFrame.src = normalizedUrl;
+      setLoading(true);
+      showMessage("Проверка сайта...", "loading");
+
+      try {
+        const loadedWebsite = await loadWebsiteHtml(normalizedUrl);
+        const result = analyzeHtml(
+          loadedWebsite.html,
+          normalizedUrl,
+          loadedWebsite
+        );
+        calculateStatus(result);
+        generateRecommendations(result);
+        renderReport(result);
+        saveToHistory(result);
+
+        if (loadedWebsite.complete) {
+          showMessage("Проверка завершена через AllOrigins.", "success");
+        } else {
+          showMessage(
+            "AllOrigins не ответил. Выполнена резервная текстовая проверка через Jina Reader.",
+            "warning"
+          );
+        }
+      } catch (error) {
+        const partialResult = createPartialResult(normalizedUrl, error.message);
+        renderReport(partialResult);
+        saveToHistory(partialResult);
+        showMessage(
+          "Не удалось полностью загрузить сайт. Проверка выполнена частично.",
+          "warning"
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function restoreTheme() {
+      const savedTheme = localStorage.getItem(THEME_KEY);
+
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeButton.textContent = "Светлая тема";
+      }
+    }
+
+    checkForm.addEventListener("submit", runCheck);
+    document.getElementById("exportButton").addEventListener("click", exportJson);
+    document.getElementById("copyButton").addEventListener("click", copyTextReport);
+    themeButton.addEventListener("click", toggleTheme);
+    document.getElementById("headerClearButton").addEventListener("click", clearHistory);
+    document.getElementById("historyClearButton").addEventListener("click", clearHistory);
+
+    historyFilterSelect.addEventListener("change", function () {
+      filterHistory(historyFilterSelect.value);
+    });
+
+    detailsButton.addEventListener("click", function () {
+      const isVisible = detailsBox.classList.toggle("visible");
+      detailsButton.textContent = isVisible ? "Скрыть детали" : "Показать детали";
+    });
+
+    previewFrame.addEventListener("load", function () {
+      previewMessage.textContent =
+        "Сайт отправлен в iframe. Если внутри пусто или видна ошибка, сайт запретил встраивание.";
+    });
+
+    restoreTheme();
+    renderHistory();
+  </script>
+
+</body>
+
+<!--
+  Инспектор сайта ОО — с карточным отчётом
+
+  Разработано: [Захарко Сергей]
+  Группа: [Исип-33]
+
+  ОСОБЕННОСТИ РЕАЛИЗАЦИИ:
+  1. Проверка сайта выполняется через proxy API AllOrigins и DOMParser.
+  2. iframe используется только для визуального предпросмотра сайта.
+  3. Поиск раздела и подразделов выполняется по ссылкам, заголовкам, href, title и тексту страницы.
+  4. Для похожих названий используется простая проверка по ключевым словам.
+  5. История проверок сохраняется в localStorage.
+  6. Дизайн специально сделан простым, потому что это MVP учебной работы.
+  7. Экспорт отчёта реализован в JSON, также можно скопировать текстовый отчёт в буфер обмена.
+
+  ИСПОЛЬЗОВАНИЕ НЕЙРОСЕТИ:
+  - Базовая структура HTML/CSS/JS была сгенерирована с помощью нейросети и доработана.
+  - Логика поиска подразделов адаптирована под список требований.
+  - Общая структура отчёта и localStorage были дополнены вручную.
+-->
+</html>
